@@ -1,0 +1,50 @@
+<!-- ============================================================
+     БЕКАП БЛОКУ «landing__about» (9 · ПРО КОМПАНІЮ)
+     Дата: 2026-06-02
+     Причина: рефактор композиції/сітки блоку (нестандартна сітка).
+     Як відкотити:
+       1) Заміни поточну <section class="landing__about"> в
+          index.html на HTML-знімок нижче.
+       2) Заміни блок CSS «9 · ПРО КОМПАНІЮ» в style.css на
+          CSS-знімок нижче (нижче по файлу, у _backup/about_2026-06-02.css).
+     Це знімок СТАНУ ДО рефактору (5/7 --col-2: контент ліворуч, відео праворуч).
+     ============================================================ -->
+
+<!-- ───────── 9 · ПРО КОМПАНІЮ ───────── -->
+<section class="landing__about">
+  <div class="container landing__about-inner">
+    <div class="landing__about-content">
+      <div class="landing__head">
+        <p class="landing__suptitle" data-reveal>Про компанію</p>
+        <h2 class="landing__title" data-reveal>Український виробник мішеневого обладнання <span class="landing__title-accent">повного циклу</span></h2>
+      </div>
+      <p class="landing__about-text" data-reveal>
+        A.M.Target — український виробник сталевих мішеней, гонгів, стійок і
+        стрілецького обладнання для бойової та тактичної підготовки.
+      </p>
+      <p class="landing__about-text" data-reveal>
+        Маємо <b class="landing__about-hi">власне виробництво повного циклу</b>, від розкрою
+        броньової сталі до готового виробу. Постачаємо обладнання військовим частинам,
+        навчальним центрам, полігонам і представникам Сил оборони
+        <b class="landing__about-hi">по всій Україні</b>.
+      </p>
+      <dl class="landing__about-reg" data-reveal>
+        <div class="landing__about-reg-row">
+          <dt class="landing__about-reg-label">Виробництво</dt>
+          <dd class="landing__about-reg-text">Повний цикл на власному майданчику — від металу до готового виробу.</dd>
+        </div>
+        <div class="landing__about-reg-row landing__about-reg-row--lead">
+          <dt class="landing__about-reg-label">Контроль</dt>
+          <dd class="landing__about-reg-text">Один підрядник відповідає за строки, якість і комплектацію.</dd>
+        </div>
+        <div class="landing__about-reg-row">
+          <dt class="landing__about-reg-label">Документи</dt>
+          <dd class="landing__about-reg-text">Рахунок, видаткові та супровідні документи під запит військової частини.</dd>
+        </div>
+      </dl>
+    </div>
+    <figure class="landing__about-media landing__about-media--video" data-reveal>
+      <video class="landing__about-video" src="assets/video/amtarget.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+    </figure>
+  </div>
+</section>

@@ -1,0 +1,2862 @@
+/* ==========================================================================
+   A.M. Target — ЛЕНДІНГ /military/  ·  арт-дирекція «ПОЛІГОН / ballistic blueprint»
+   --------------------------------------------------------------------------
+   Базу/reset/токени/типографіку/шапку/футер дає ПОВНИЙ CSS сайту
+   (assets/css/styles.css), підключений у <head> ПЕРЕД цим файлом.
+
+   Усі НОВІ стилі — під коренем .landing (BEM .landing__<element>).
+   Мова форми: темне тло, технічна сітка-блюпринт + зерно, зрізані кути панелей
+   закруглені плашки з backdrop-blur, приціли-ретикули, ghost-номери, жовтий акцент хірургічно,
+   зелений — для дії (WhatsApp). Брейкпоінти: 359/768/1024/1200/1400/1800.
+   ========================================================================== */
+
+.landing {
+  position: relative;
+  flex: 1 0 auto;
+  overflow: hidden; /* фон-декор не дає горизонтального скролу */
+  color-scheme: dark;
+  /* базовий шрифт усієї прози лендінгу — Battlefield 6 body (bfbody = BF_TEXT).
+     Заголовки (--font-title) і кнопки (--font-btn) задають свій шрифт самі. */
+  font-family: var(--font-body);
+
+  /* --- бренд-токени (scoped) --- */
+  --accent: #ffd21d;
+  --accent-2: #ffe478;
+  --green: #00a046;
+  --l-green: #00e569;
+  --site-bg: #161d1e;
+  --white: #fff;
+  --black: #000;
+  --error: #ff6363;
+  --font-title: "BF_Modernista", sans-serif;
+  --font-btn: "BF_SUB_HEADLINE", "BF_Modernista", sans-serif;
+  --font-heading: "BF_SUB_HEADLINE", "BF_Modernista", sans-serif;
+  --font-body: "BF_TEXT", "HelveticaNeueCyr", sans-serif;
+  --font-mono: "BF_MONO", ui-monospace, monospace;
+
+  --r-btn: 10px;
+  --r-block: 20px;
+  --r-shortcard: 15px;
+
+  /* поверхні / обводки / текст */
+  --surface-1: rgba(255, 255, 255, 0.04);
+  --surface-2: rgba(255, 255, 255, 0.07);
+  --surface-3: rgba(255, 255, 255, 0.1);
+  --border-soft: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.24);
+  --text-2: rgba(255, 255, 255, 0.82);
+  --text-3: rgba(255, 255, 255, 0.56);
+  --accent-tint: rgba(255, 210, 29, 0.1);
+  --accent-line: rgba(255, 210, 29, 0.55);
+  --grid-line: rgba(255, 255, 255, 0.016);
+
+  /* радіуси скруглення панелей (дрібні, як у дизайні) */
+  --r-panel: 14px;
+
+  /* вертикальний ритм */
+  --sec-pad: 44px;
+
+  /* СПІЛЬНА 2-колонкова сітка лендінгу — щоб шов між колонками стояв на одній
+     вертикалі в усіх блоках (5/7 від умовної 12-колонкової сітки).
+     Вузька колонка (інтро/заголовок) — ліворуч, широка (контент) — праворуч. */
+  --col-2: minmax(0, 5fr) minmax(0, 7fr);
+  --col-2-rev: minmax(0, 7fr) minmax(0, 5fr); /* дзеркало (широка ліворуч) — панель контактів */
+  --col-gap: clamp(40px, 4vw, 64px);          /* спільний жолоб між колонками */
+
+  /* іконка кошика для кнопки картки товару (з amtarget.net/shop) */
+  --ico-add_to_cart: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE1LjEyMyA5Ljc1SDQuMDY0MjVMMy4zNTg1IDMuNzVIMTAuNVYyLjI1SDMuMTgxNUwzLjE1IDEuOTg2QzMuMDg1MzcgMS40Mzg5NSAyLjgyMjI5IDAuOTM0NjE2IDIuNDEwNjQgMC41Njg1NzhDMS45OTg5OSAwLjIwMjU0MSAxLjQ2NzM2IDAuMDAwMjM0NjI3IDAuOTE2NSAwTDAgMFYxLjVIMC45MTY1QzEuMTAwMiAxLjUwMDAyIDEuMjc3NSAxLjU2NzQ3IDEuNDE0NzggMS42ODk1NEMxLjU1MjA2IDEuODExNjEgMS42Mzk3NiAxLjk3OTgxIDEuNjYxMjUgMi4xNjIyNUwyLjg1IDEyLjI2MzNDMi45MTQ0NiAxMi44MTA0IDMuMTc3NDYgMTMuMzE1IDMuNTg5MTMgMTMuNjgxMUM0LjAwMDggMTQuMDQ3MyA0LjUzMjUzIDE0LjI0OTcgNS4wODM1IDE0LjI1SDE1VjEyLjc1SDUuMDgzNUM0Ljg5OTY4IDEyLjc1IDQuNzIyMjkgMTIuNjgyNCA0LjU4NDk5IDEyLjU2MDJDNC40NDc3IDEyLjQzOCA0LjM2MDA3IDEyLjI2OTYgNC4zMzg3NSAxMi4wODdMNC4yNDA1IDExLjI1SDE2LjM3N0wxNy4wNTIgNy41SDE1LjUyODdMMTUuMTIzIDkuNzVaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNNS4yNSAxOEM2LjA3ODQzIDE4IDYuNzUgMTcuMzI4NCA2Ljc1IDE2LjVDNi43NSAxNS42NzE2IDYuMDc4NDMgMTUgNS4yNSAxNUM0LjQyMTU3IDE1IDMuNzUgMTUuNjcxNiAzLjc1IDE2LjVDMy43NSAxNy4zMjg0IDQuNDIxNTcgMTggNS4yNSAxOFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMi43NSAxOEMxMy41Nzg0IDE4IDE0LjI1IDE3LjMyODQgMTQuMjUgMTYuNUMxNC4yNSAxNS42NzE2IDEzLjU3ODQgMTUgMTIuNzUgMTVDMTEuOTIxNiAxNSAxMS4yNSAxNS42NzE2IDExLjI1IDE2LjVDMTEuMjUgMTcuMzI4NCAxMS45MjE2IDE4IDEyLjc1IDE4WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTE1Ljc1IDIuMjVWMEgxNC4yNVYyLjI1SDEyVjMuNzVIMTQuMjVWNkgxNS43NVYzLjc1SDE4VjIuMjVIMTUuNzVaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K);
+}
+@media (min-width: 768px)  { .landing { --sec-pad: 50px; } }
+@media (min-width: 1024px) { .landing { --sec-pad: 65px; } }
+@media (min-width: 1400px) { .landing { --sec-pad: 70px; } }
+
+/* ===== АТМОСФЕРА: зерно =====
+   Шар на ВЕСЬ екран (на #page-wrap), а не лише в межах .landing.
+   position: fixed + z-index:-1 → суцільний фон під усім контентом, без шва.
+   Зелений radial-glow прибрано: лишався після вимкнення блюпринт-сітки й
+   читався як випадкова пляма-«клякса» над темним тлом (position:fixed → не
+   скролився з контентом). Сітку/глоу за потреби можна повернути сюди. */
+#page-wrap::after { /* зерно */
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.landing > * { position: relative; z-index: 1; }
+
+/* ===== ПІКСЕЛЬНИЙ СЛІД (canvas) =====
+   «Жива» версія blueprint-сітки вище: під курсором проявляються клітинки
+   й плавно згасають (порт ефекту з kratos.army, але без p5.js).
+   Шар на весь екран, ПІД усім контентом → пікселі ніколи не перекривають
+   текст/картки, лише дихають у темному тлі. Малює landing.js. */
+:root { --grid-trail-cell: 0.83rem; }   /* розмір «пікселя» (rem або px); ×3 дрібніше за 2.5rem */
+
+.amt-grid-trail {
+  position: fixed;
+  inset: 0;
+  z-index: -1;            /* у фоні сторінки, під .landing > * (z:1) */
+  pointer-events: none;   /* не перехоплює кліки/ховери */
+  contain: layout paint;  /* ізоляція промальовки */
+}
+.amt-grid-trail canvas { display: block; width: 100%; height: 100%; }
+
+/* варіант для героя: НАД контентом секції (а не у фоні сторінки) */
+.amt-grid-trail--hero {
+  position: absolute;     /* у межах .landing__hero (position:relative; z-index:1) */
+  z-index: 2;             /* над .landing__hero-inner (z-index: auto) */
+}
+
+/* системне «менше руху» — ефект не показуємо (JS теж його не запускає) */
+@media (prefers-reduced-motion: reduce) {
+  .amt-grid-trail { display: none; }
+}
+
+/* ==========================================================================
+   Інтерактив шапки БЕЗ JS теми (override site CSS)
+   ========================================================================== */
+.header__catalog:hover .header__catalog-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+  top: 100%;
+}
+.header__catalog:hover .header__catalog_btn {
+  background-color: var(--white);
+  color: var(--black);
+}
+.header__search:focus-within { max-width: 600px; }
+.header__search:focus-within .header__search-input {
+  border-color: var(--accent);
+  color: var(--white);
+}
+.header__search:focus-within .header__search-toggle_btn {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   ВІДСТУП ФІКС-МЕНЮ ВІД БІГУЧОЇ ПОЛОСКИ (opt_ticker)
+   --------------------------------------------------------------------------
+   Тема саджала .header впритул/з накладанням на тикер (top:27/24/15px,
+   а тикер = 34px заввишки → меню налазило на бігучку). Опускаємо меню так,
+   щоб під тикером лишався невеликий повітряний зазор. Плейсхолдер піднімаємо
+   на ту ж дельту, аби контент не з'їжджав під меню.
+   ========================================================================== */
+.opt_ticker + .header { top: 36px; }                       /* моб: 34px тикер + 2px зазор */
+.opt_ticker + .header + .header_placeholder { height: 128px; }
+@media (min-width: 1024px) {
+  .opt_ticker + .header { top: 20px; }                      /* десктоп: візуально правильний зазор */
+  .opt_ticker + .header + .header_placeholder { height: 121px; }
+}
+@media (min-width: 1200px) {
+  .opt_ticker + .header { top: 20px; }
+  .opt_ticker + .header + .header_placeholder { height: 154px; }
+}
+
+/* ==========================================================================
+   МЕНЮ ПОВЕРХ ФОТО ГЕРОЯ  ·  вимикач = клас .header--ghostnav на <header>
+   --------------------------------------------------------------------------
+   Зараз: вгорі сторінки плашка-меню ПРОЗОРА (видно фото під кнопками) + м'який
+   скрим зверху лишає лого/кнопки читабельними над світлим небом; на скролі
+   (JS додає .at-top лише коли scrollY≈0) повертається СУЦІЛЬНА плашка теми.
+   Без JS .at-top не додається → меню лишається суцільним (безпечний фолбек).
+
+   ── ЯК ШВИДКО ЗМІНИТИ ──────────────────────────────────────────────────────
+   • ПОВЕРНУТИ стару суцільну темну плашку ЗАВЖДИ:
+       приберіть клас `header--ghostnav` у <header> (index.html). Усі правила
+       нижче перестають діяти → працює рідна суцільна плашка теми. Це все.
+   • Зробити плашку ПРОЗОРОЮ ЗАВЖДИ (без темної навіть на скролі):
+       у landing.js, syncHeaderTop(), замініть тіло на
+         header.classList.add('at-top');
+       (тоді .at-top тримається завжди).
+   ========================================================================== */
+.header--ghostnav::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 168px;
+  background: linear-gradient(180deg,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.26) 46%,
+    rgba(0, 0, 0, 0) 100%);
+  z-index: -1;                 /* у стек-контексті шапки: під кнопками, над фото */
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.header--ghostnav.at-top::before { opacity: 1; }
+.header--ghostnav.fixed.at-top .header__content::before {
+  background-color: transparent;
+  -webkit-backdrop-filter: none;
+          backdrop-filter: none;
+  opacity: 0;
+}
+
+/* ==========================================================================
+   СПІЛЬНІ ПРИМІТИВИ
+   ========================================================================== */
+.landing { counter-reset: sec; }
+.landing section { padding: var(--sec-pad) 0; }
+/* RFQ і Contacts — спільна ціль (запит КП → прямий зв’язок), зближуємо шов.
+   Подвійний клас — щоб перебити .landing section { padding } (вища специфічність) */
+.landing__rfq.landing__rfq { padding-bottom: calc(var(--sec-pad) * 0.4); }
+.landing__contacts.landing__contacts { padding-top: calc(var(--sec-pad) * 0.4); }
+.landing section[id] { scroll-margin-top: 92px; }
+@media (min-width: 1024px) { .landing section[id] { scroll-margin-top: 116px; } }
+
+/* ───────── розділювач секцій (divider.svg — фірмовий скос-шов) ─────────
+   Лінія сидить по центру шва між блоками. Суміжні секції вже дають
+   симетричні --sec-pad згори/знизу, тож вертикально лінія центрована сама. */
+.landing__sep { width: 100%; }
+.landing__sep-line {
+  display: block;
+  width: 100%;
+  height: auto;       /* масштабується пропорційно → скоси лишаються чіткими */
+}
+
+/* інтерактив — без 300ms-затримки і прозорий tap-highlight на тач-екранах */
+.landing__btn,
+.landing__tab,
+.landing__cat,
+.landing__chip,
+.landing__consent,
+.landing__faq-q,
+.landing__gallery-video,
+.landing__cats-anchor { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+
+/* службовий клас для приховування підписів від погляду, але не від AT */
+.landing__sr {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- editorial-шапка секції: індекс-лічильник + ретикул-надзаголовок ---- */
+.landing__head { margin-bottom: 28px; }
+.landing__head--center { text-align: center; }
+@media (min-width: 1024px) { .landing__head { margin-bottom: 40px; } }
+
+/* надзаголовок-eyebrow у стилі скріншота: моно-текст BF_MONO у рамці-боксі */
+.landing__suptitle {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 16px;
+  padding: 6px 5px 5px 5px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 5px;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.1;
+  letter-spacing: 0;
+  color: var(--text-2);
+  text-transform: uppercase;
+}
+.landing__head--center .landing__suptitle { justify-content: center; }
+
+.landing__title {
+  margin: 0;
+  /* H2 у шрифті Battlefield 6 (bfheading = BF_SUB_HEADLINE) */
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 23px;
+  line-height: 1.1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+@media (min-width: 768px)  { .landing__title { font-size: 27px; } }
+@media (min-width: 1024px) { .landing__title { font-size: 32px; } }
+@media (min-width: 1400px) { .landing__title { font-size: 56px; } }
+
+.landing__lead {
+  max-width: 600px;
+  margin: 18px 0 0;
+  /* секційний підзаголовок в EA-стилі: писаний текст HelveticaNeueCyr, білий, щільний інтерліньяж (трохи менший за hero) */
+  font-family: "HelveticaNeueCyr", sans-serif;
+  font-size: 17px;
+  line-height: 1.35;
+  color: var(--white);
+}
+.landing__head--center .landing__lead { margin-left: auto; margin-right: auto; }
+@media (min-width: 1024px) { .landing__lead { font-size: 18px; } }
+
+/* тег / лейбл */
+.landing__tag {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: var(--accent);
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  color: var(--black);
+  text-transform: uppercase;
+}
+.landing__tag--ghost {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--border-soft);
+  color: var(--text-2);
+  font-weight: 500;
+}
+
+/* ---- тактична панель: закруглення + border + backdrop-blur ---- */
+.landing__panel {
+  position: relative;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r-panel);
+  background: var(--surface-1);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  transition: border-color 0.35s ease, background-color 0.35s ease;
+}
+.landing__panel--accent {
+  background: var(--accent-tint);
+  border-color: var(--accent-line);
+}
+
+/* прозорі плашки розмивають фон-сітку під собою (читабельність) */
+.landing__logos-itm,
+.landing__rfq-perk,
+.landing__tabs {
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+}
+
+/* якір «дивитися товари нижче» — не кнопка-розкривалка, а прев'ю-якір:
+   стопка мініатюр товарів + напис + шеврон-натяк «нижче». Стилі — біля секції категорій. */
+
+/* ретикул-іконка (приціл) */
+.landing__reticle {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+
+/* ==========================================================================
+   КНОПКИ
+   ========================================================================== */
+.landing__btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 0 28px;
+  border: 1px solid transparent;
+  border-radius: var(--r-btn);
+  /* шрифт кнопок Battlefield 6 (bfheading = BF_SUB_HEADLINE), uppercase + широкий трекінг */
+  font-family: var(--font-btn);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+  /* як у дизайн-системі сайту: тільки колір, без руху й тіні */
+  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+}
+.landing__btn svg { flex: 0 0 auto; }
+.landing__btn-ico { flex: 0 0 auto; width: 20px; height: 20px; }
+
+/* стрілка-шеврон як у дизайн-системі (.btn-more:after — 9×9, поворот 45°) */
+.landing__btn-arrow {
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  border-top: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+  transform: rotate(45deg);
+}
+
+/* акцентні CTA крупніші: 17px + більший габарит (другорядні лишаються 14px / 54px) */
+.landing__btn--primary,
+.landing__btn--green {
+  min-height: 60px;
+  padding: 0 34px;
+  font-size: 17px;
+}
+
+/* колір тексту фіксований у кожному стані — без втрати контрасту (перебиває глобальне a:hover) */
+.landing__btn--primary { background: var(--accent); border-color: var(--accent); color: var(--black); }
+.landing__btn--primary:hover,
+.landing__btn--primary:focus-visible { background: var(--accent-2); border-color: var(--accent-2); color: var(--black); }
+.landing__btn--primary:active { background: #e6bd12; border-color: #e6bd12; color: var(--black); }
+
+.landing__btn--outline { background: transparent; border-color: var(--border-hover); color: var(--white); }
+.landing__btn--outline:hover,
+.landing__btn--outline:focus-visible { border-color: var(--accent); color: var(--accent); }
+.landing__btn--outline:active { background: var(--surface-1); color: var(--accent); }
+
+.landing__btn--ghost { background: var(--surface-2); border-color: var(--border-soft); color: var(--white); }
+.landing__btn--ghost:hover,
+.landing__btn--ghost:focus-visible { border-color: var(--accent); color: var(--accent); }
+.landing__btn--ghost:active { background: var(--surface-3); color: var(--accent); }
+
+.landing__btn--green { background: var(--green); border-color: var(--green); color: var(--white); }
+.landing__btn--green:hover,
+.landing__btn--green:focus-visible { background: var(--l-green); border-color: var(--l-green); color: var(--black); }
+.landing__btn--green:active { background: var(--green); border-color: var(--green); color: var(--white); }
+
+.landing__btn--wide { width: 100%; }
+
+/* CTA з довгим написом (`--lead`): зміни ЛИШЕ для моб. На десктопі кнопки лишаються як були
+   (центровані) — жодних правил поза @media. На моб.: текст ліворуч, іконка притиснута до
+   правого краю (по центру по вертикалі), тісніший бічний padding, керований <br> у написі.
+   Висоту НЕ чіпаємо (min-height), вертикаль симетрична → зверху/знизу однаково. */
+.landing__btn-br { display: none; }
+@media (max-width: 480px) {
+  .landing__btn--lead { justify-content: flex-start; text-align: left; padding-left: 16px; padding-right: 16px; }
+  .landing__btn--lead .landing__btn-label { flex: 1 1 auto; text-align: left; }
+  .landing__btn-br { display: inline; }
+}
+
+/* ==========================================================================
+   1 · HERO — банер-варіант: фото на всю ширину + двоколонковий контент
+   ========================================================================== */
+/* подвійний клас — щоб перебити .landing section { padding } (вища специфічність) */
+.landing__hero.landing__hero--banner {
+  position: relative;
+  isolation: isolate;                  /* локальний stacking-контекст для фон-фото */
+  padding-top: 0;
+  padding-bottom: clamp(30px, 4vw, 48px);
+  overflow: hidden;                    /* фото не виходить за межі секції */
+  /* фото-банер починається на самому верху сторінки (під фіксованим меню),
+     як кадр у Figma. Плейсхолдер шапки прибрано (нижче), тож герой = перший
+     елемент потоку й стартує з y=0; меню «плаває» поверх фото. */
+  margin-top: 0;
+}
+/* шапка фіксована й лежить поверх фото — місце під неї більше не резервуємо,
+   щоб фото заповнювало весь верх (а не починалося під плашкою-меню) */
+.header_placeholder { display: none; }
+
+/* --- фон-банер: фото зверху на всю ширину, плавно гасне у тло сторінки --- */
+.landing__hero-bg {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  /* вище й об'ємніше за попереднє (фото більше не «сплющується» у вузьку
+     смугу); тягнеться від самого верху сторінки за фіксоване меню — як у Figma */
+  height: clamp(560px, 47vw, 900px);
+  z-index: -1;                         /* під контентом (isolation на секції) */
+  pointer-events: none;
+}
+.landing__hero-bg-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* кадр як у Figma: смужка неба → лісосмуга на валу → поле з мішенями й
+     бійцями (а не зум у схил, як було при 30%) */
+  object-position: 50% 57%;
+}
+.landing__hero-bg::after {             /* затемнення: фото → тло (#161D1E) */
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* вертикальний фейд як у Figma: фото чисте зверху, до низу гасне у тло;
+     + делікатний лівий скрим для читабельності заголовка */
+  background:
+    linear-gradient(180deg,
+      rgba(22, 29, 30, 0) 0%,
+      rgba(22, 29, 30, 0) 40%,
+      rgba(22, 29, 30, 0.55) 70%,
+      var(--site-bg) 92%),
+    linear-gradient(90deg, rgba(22, 29, 30, 0.42) 0%, rgba(22, 29, 30, 0) 50%);
+}
+
+/* контент героя поверх фото */
+.landing__hero--banner .landing__hero-inner {
+  position: relative;
+  z-index: 1;
+  /* контент стартує нижче фіксованого меню; на 1440 бейдж ≈ y259, як у Figma */
+  padding-top: clamp(160px, 18vw, 290px);
+}
+/* мобільна версія: фото на весь верх → даємо контенту більше повітря згори */
+@media (max-width: 767px) {
+  .landing__hero--banner .landing__hero-inner { padding-top: 280px; }
+}
+
+/* бейдж A.M.TARGET — суцільний чорний бокс + heading-шрифт (як у макеті) */
+.landing__hero--banner .landing__hero-badge {
+  margin: 0 0 6px;                   /* щільно до H1 — зазор 6px як у Figma (низ y308 → H1 y314) */
+  background: #000;
+  border: none;                      /* суцільний чорний бокс без обводки → висота рівно 31px */
+  gap: 18px;                         /* зазор «лого ↔ приціл» як у Figma */
+  padding: 9px 14px 9px 11px;        /* асиметрія pr>pl компенсує трекінг-хвіст (як у Figma) */
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: 0.227em;           /* tracking 2.95px на кеглі 13px */
+  color: var(--white);               /* чистий білий, без прозорості (було text-2 = 82%) */
+}
+/* heading-шрифт сидить по центру line-box краще за моно — гасимо трекінг-хвіст (на повний 0.227em) */
+.landing__hero-badge .landing__kicker-text { margin-right: -0.227em; top: 0; }
+
+/* сітка героя:
+   рядок 1 — H1 на всю ширину (над усім); далі дві колонки —
+   ліворуч спек-лист, праворуч (притиснута) секція: підзаголовок → кнопки → нотатка */
+.landing__hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(22px, 3vw, 30px);
+}
+/* права секція на десктопі: притиснута до правого краю, ширина = по кнопках;
+   підзаголовок/кнопки лівим краєм збігаються (бо обидва ліворуч у цьому блоці) */
+.landing__hero-side { display: flex; flex-direction: column; }
+@media (min-width: 1024px) {
+  .landing__hero-grid {
+    grid-template-columns: var(--col-2);
+    grid-template-areas:
+      "title title"
+      "specs side";
+    grid-template-rows: auto auto;
+    column-gap: var(--col-gap);
+    row-gap: 0;
+    align-items: start;
+  }
+  /* H1 над контентом; відʼємний нижній відступ → нижня частина підтягується (компактніше) */
+  .landing__hero-g-title { grid-area: title; max-width: min(100%, 1010px); margin: 0 0 clamp(-30px, -1.7vw, -12px); }
+  .landing__hero-g-specs { grid-area: specs; align-self: end; }
+  .landing__hero-g-side  {
+    grid-area: side;
+    align-self: start;
+    width: fit-content;          /* ширина = по найширшому (кнопки) */
+    max-width: 100%;
+    margin-left: auto;           /* притискаємо до правого краю колонки */
+    gap: clamp(22px, 2.4vw, 32px);
+  }
+}
+
+/* hero-надзаголовок: моно-текст BF_MONO у рамці-боксі (як скрін) + мигаюче коло всередині */
+.landing__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 22px;
+  padding: 9px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.15em;
+  color: var(--text-2);
+  text-transform: uppercase;
+}
+/* трейлінг letter-spacing після останньої літери робив правий відступ
+   більшим за лівий — гасимо його, щоб текст у боксі читався симетрично.
+   top — компенсація метрик BF_MONO: капси сидять трохи вище центру line-box,
+   через що верхній зазор виходив меншим за нижній; зсуваємо ink донизу */
+.landing__kicker-text { margin-right: -0.15em; position: relative; top: 0.7px; }
+.landing__kicker-dot {
+  position: relative;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+.landing__kicker-dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  opacity: 0.6;
+  animation: amt-ping 2.4s ease-out infinite;
+}
+@keyframes amt-ping {
+  0% { transform: scale(0.6); opacity: 0.7; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+.landing__hero-title {
+  margin: 0 0 24px;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1.2;
+  letter-spacing: 0.005em;
+  color: var(--white);
+  text-transform: uppercase;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+.landing__hero-title--accent {
+  color: var(--accent);
+  text-shadow: 0 0 42px rgba(255, 210, 29, 0.45);
+}
+@media (min-width: 768px)  { .landing__hero-title { font-size: 46px; } }
+@media (min-width: 1024px) { .landing__hero-title { font-size: 54px; } }
+
+/* банер: «Сталеві мішені» — окремим рядком, кегль крупніший (як у макеті) */
+.landing__hero--banner .landing__hero-title--accent { display: block; }
+.landing__hero--banner .landing__hero-title { line-height: 1.14; }
+@media (min-width: 1024px) {
+  .landing__hero--banner .landing__hero-title { font-size: clamp(48px, 4.45vw, 64px); }
+  /* «для бойової підготовки» — окремим рядком → «ЗСУ» завжди на 3-му рядку (як у макеті) */
+  .landing__hero--banner .landing__hero-title-mid { display: block; }
+}
+/* «ЗСУ» + тризуб тримаємо разом в одному рядку */
+.landing__hero-zsu { white-space: nowrap; }
+.landing__hero-tryzub {
+  display: inline-block;
+  height: 0.82em;
+  width: auto;
+  margin-left: 0.22em;
+  vertical-align: -0.07em;
+}
+
+.landing__hero-subtitle {
+  max-width: 560px;
+  margin: 0 0 30px;
+  /* підзаголовок як на ea.com: HelveticaNeueCyr Medium, яскраво-білий, крупніший, просторий інтерліньяж (як у Figma) */
+  font-family: "HelveticaNeueCyr", sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.6;
+  color: var(--white);
+}
+@media (min-width: 1024px) { .landing__hero-subtitle { font-size: 22px; } }
+.landing__hero-subtitle-accent { color: var(--accent); }
+@media (min-width: 1024px) {
+  .landing__hero--banner .landing__hero-subtitle { margin: 0; font-size: clamp(21px, 1.74vw, 25px); max-width: 530px; }
+}
+
+/* переваги — «спек-лист»: тонкі лінії + технічна нумерація, без галочок */
+.landing__hero-specs {
+  margin: 0 0 32px;
+  padding: 0;
+  list-style: none;
+  max-width: 540px;
+  border-top: 1px solid var(--border-soft);
+}
+.landing__hero-spec {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 13px 2px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.landing__hero-spec-num {
+  flex: 0 0 auto;
+  min-width: 22px;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+.landing__hero-spec-text {
+  font-size: 16px;
+  line-height: 1.35;
+  font-weight: 500;
+  color: var(--white);
+}
+/* головна вигода — акцент */
+.landing__hero-spec--lead { border-bottom-color: var(--accent-line); }
+.landing__hero-spec--lead .landing__hero-spec-num { color: var(--accent); }
+.landing__hero-spec--lead .landing__hero-spec-text { color: var(--accent); }
+
+/* банер: спек-лист як у макеті — лінія лише ПІД 01 (жовта) і ПІД 02 (тонка);
+   над 01 і під 03 ліній немає. width: fit-content → лінії не довші за найдовший пункт */
+.landing__hero--banner .landing__hero-specs { margin: 0; width: fit-content; max-width: 100%; border-top: none; }
+.landing__hero--banner .landing__hero-spec:last-child { border-bottom: none; }
+.landing__hero--banner .landing__hero-spec-num {
+  font-size: clamp(14px, 1vw, 15px);
+  letter-spacing: 0.06em;
+}
+.landing__hero--banner .landing__hero-spec-text {
+  font-family: var(--font-heading);
+  font-size: clamp(15px, 1.25vw, 18px);
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* права колонка band B: кнопки + нотатка */
+.landing__hero-cta { display: flex; flex-direction: column; align-items: flex-start; }
+
+.landing__hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+}
+.landing__hero-actions .landing__btn { flex: 1 1 auto; }
+@media (min-width: 480px) { .landing__hero-actions .landing__btn { flex: 0 1 auto; } }
+/* «WhatsApp» — зелений; лишається зеленим і на hover (явний колір) */
+.landing__btn-accent-green { color: var(--l-green); }
+
+.landing__hero-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  margin: clamp(14px, 1.4vw, 20px) 0 0;
+  font-size: 14px;
+  line-height: 1.3;
+  font-weight: 500;
+  color: var(--text-2);
+}
+.landing__hero-note-ico {
+  flex: 0 0 auto;
+  color: var(--accent);
+}
+/* банер: нотатка — heading-шрифт, UPPERCASE, дрібна; білий текст, годинник жовтий, лише «30 хв» зелене (як у макеті) */
+.landing__hero--banner .landing__hero-note {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.landing__hero--banner .landing__hero-note-ico { color: var(--accent); }
+.landing__hero-note-accent { color: var(--l-green); font-weight: 700; }
+
+/* ==========================================================================
+   2 · SOCIAL PROOF — band з лічильниками
+   ========================================================================== */
+.landing__proof { text-align: center; }
+
+/* вертикальна шапка: заголовок зверху, лічильники під ним (по центру секції) */
+.landing__proof-top {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 30px;
+  margin: 0 0 44px;
+}
+@media (min-width: 1024px) { .landing__proof-top { gap: 36px; } }
+.landing__proof-head { margin-bottom: 0; text-align: center; }
+.landing__proof-title { max-width: 720px; margin: 0 auto; line-height: 1.1; }
+/* акцент на окремих словах + прапор */
+.landing__title-accent { color: var(--accent); }
+.landing__title-flag {
+  text-transform: none;
+  font-size: 0.82em;
+  vertical-align: 0.04em;
+  white-space: nowrap;
+}
+
+/* плашка-лічильник: кібер-маска зі скосами (TR + BL), як у фото героя */
+.landing__stats {
+  --cut: clamp(14px, 2.2vw, 22px);   /* розмір скосу */
+  --r: 8px;                          /* заокруглення TL + BR */
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);  /* моб: перші 2 показники в один ряд */
+  gap: 0;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  background: rgba(255, 210, 29, 0.02); /* плашка: жовтий FFD21D, 2% прозорість */
+  border-radius: var(--r) 0 var(--r) 0;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--cut)) 0,
+    100% var(--cut),
+    100% 100%,
+    var(--cut) 100%,
+    0 calc(100% - var(--cut))
+  );
+}
+.landing__stats::before {            /* заливка-плашка на всю площу, без рамки */
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: transparent;            /* фон дає сам .landing__stats */
+  border-radius: inherit;
+  clip-path: inherit;
+}
+/* моб: третій показник — на всю ширину під першими двома + тонкі роздільники */
+.landing__stats-itm:nth-child(2) { box-shadow: inset 1px 0 0 var(--border-soft); }
+.landing__stats-itm:nth-child(3) {
+  grid-column: 1 / -1;
+  box-shadow: inset 0 1px 0 var(--border-soft);
+}
+@media (min-width: 600px) {
+  .landing__stats { grid-template-columns: repeat(3, 1fr); }
+  .landing__stats-itm:nth-child(3) { grid-column: auto; box-shadow: none; }
+}
+.landing__stats-itm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 12px;
+}
+/* тонкі роздільники між показниками + відновлення відступів на ≥600px */
+@media (min-width: 600px) {
+  .landing__stats-itm { gap: 16px; padding: 36px 64px; }
+  .landing__stats-itm + .landing__stats-itm { box-shadow: inset 1px 0 0 var(--border-soft); }
+}
+/* надпис над цифрою — реєстр BF_SUB_HEADLINE, приглушений золотий */
+.landing__stats-top {
+  font-family: var(--font-heading);   /* BF_SUB_HEADLINE */
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  color: rgba(255, 210, 29, 0.5);
+  text-transform: uppercase;
+}
+.landing__stats-num {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+.landing__stats-label {
+  font-family: var(--font-heading);   /* BF_SUB_HEADLINE */
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  color: #ffd21d;                      /* непрозорий золотий */
+  text-transform: uppercase;
+  text-align: center;
+  white-space: normal;                 /* моб: дозволяємо перенос, щоб не обрізало */
+}
+/* відновлення розмірів тексту на планшеті/десктопі */
+@media (min-width: 600px) {
+  .landing__stats-top { font-size: 11px; letter-spacing: 0.1em; }
+  .landing__stats-num { font-size: 40px; }
+  .landing__stats-label { font-size: 13px; letter-spacing: 0.08em; white-space: nowrap; }
+}
+@media (min-width: 1024px) { .landing__stats-num { font-size: 54px; } }
+.landing__proof-caption {
+  margin: 0 0 24px;
+  font-family: "HelveticaNeueCyr", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--white);
+  text-align: center;
+}
+@media (min-width: 1024px) { .landing__proof-caption { font-size: 17px; } }
+
+.landing__logos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 600px)  { .landing__logos { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1024px) { .landing__logos { grid-template-columns: repeat(6, 1fr); gap: 14px; } }
+/* картка бригади: та сама кібер-маска зі скосами (TR + BL) */
+.landing__logos-itm {
+  --cut: 12px;     /* розмір скосу */
+  --r: 6px;        /* заокруглення TL + BR */
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 26px 16px;
+  background: var(--border-soft);   /* колір рамки по масці */
+  border-radius: var(--r) 0 var(--r) 0;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--cut)) 0,
+    100% var(--cut),
+    100% 100%,
+    var(--cut) 100%,
+    0 calc(100% - var(--cut))
+  );
+  text-align: center;
+  transition: background 0.35s ease;
+}
+.landing__logos-itm::before {        /* заливка, лишає 1px рамки */
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: #1d2526;
+  border-radius: inherit;
+  clip-path: inherit;
+}
+.landing__logos-itm:hover { background: var(--accent-line); }
+.landing__logos-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.landing__logos-mark img { width: 52px; height: 52px; object-fit: contain; display: block; }
+.landing__logos-name {
+  font-size: 14px;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  font-weight: 500;
+  color: var(--white);
+  text-wrap: balance;
+}
+@media (min-width: 1024px) { .landing__logos-name { font-size: 15px; } }
+
+/* ==========================================================================
+   3 · КАТЕГОРІЇ — bento
+   ========================================================================== */
+/* ── вертикальна редакторська шапка по центру: надзаголовок+заголовок зверху,
+   підзаголовок під ними; сітка карток на всю ширину, кнопка окремо знизу ── */
+.landing__cats-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  margin-bottom: 26px;
+}
+@media (min-width: 768px)  { .landing__cats-head { margin-bottom: 32px; } }
+@media (min-width: 1024px) { .landing__cats-head { margin-bottom: 40px; } }
+.landing__cats-head-left { min-width: 0; }
+.landing__cats-lead {
+  margin: 0 auto;
+  max-width: 620px;
+  font-size: 16px;            /* моб: тримаємо ближче до звичайного lead (17px), без роздування */
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+  font-weight: 500;
+}
+@media (min-width: 1024px) { .landing__cats-lead { font-size: 20px; } }
+.landing__cats-lead.landing__reviews-lead { font-size: 17px; line-height: 1.7; }
+.landing__lead-mute { opacity: 0.5; }
+
+.landing__cats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 560px)  { .landing__cats-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
+@media (min-width: 1024px) { .landing__cats-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+
+/* ── картка-категорія: горизонтальна — прозорий виріз товару (без підкладки/рамки)
+   ліворуч, назва + кількість праворуч, іконка-чіп у кутку, шеврон у кінці ── */
+.landing__cat {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  height: 100%;
+  min-height: 212px;
+  padding: 26px 24px;
+  transition: border-color 0.35s ease, background-color 0.35s ease;
+}
+.landing__cat { border-color: transparent; }
+.landing__cat:hover { border-color: var(--accent); background: var(--surface-2); }
+.landing__cat:hover .landing__cat-arrow { color: var(--accent); }
+.landing__cat:hover .landing__cat-name { color: var(--accent); }
+
+/* прозорий виріз товару «плаває» прямо на картці — без підкладки й рамки */
+.landing__cat-media {
+  position: relative;
+  flex: 0 0 auto;
+  width: 156px;
+  height: 156px;
+}
+.landing__cat-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* іконка-чіп категорії (повернена) — на темному «склі» в кутку вирізу */
+.landing__cat-ico {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: rgba(11, 19, 22, 0.7);
+  -webkit-backdrop-filter: blur(6px);
+          backdrop-filter: blur(6px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+  color: var(--accent);
+}
+.landing__cat-ico svg { display: block; }
+
+.landing__cat-body { flex: 1 1 auto; display: flex; flex-direction: column; gap: 78px; min-width: 0; }
+.landing__cat-name { font-family: var(--font-heading); /* BF_SUB_HEADLINE */ font-weight: 500; font-size: 17px; line-height: 1.2; text-transform: uppercase; color: var(--white); }
+@media (min-width: 1024px) { .landing__cat-name { font-size: 19px; } }
+/* кількість моделей — контурний акцент-чип: моно-число у жовтій ghost-рамці
+   (accent-tint + accent-line) + пропорційне body-слово приглушеним капсом.
+   Ховер «активує» чип — суцільна жовта заливка, чорний текст. */
+.landing__cat-count {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  color: var(--white);
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+.landing__cat-count b {
+  margin-right: 8px;
+  padding: 3px 5px 2px 5px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0;
+  color: var(--accent);
+  background: var(--accent-tint);
+  border: none;
+  border-radius: 5px;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+.landing__cat:hover .landing__cat-count b {
+  color: var(--black);
+  background: var(--accent);
+}
+
+/* спек-футер: тонка лінія-роздільник, кількість ліворуч + шеврон праворуч —
+   щоб цифра й стрілка не «зависали» в центрі картки, а читались як рядок-дія */
+.landing__cat-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-soft);
+}
+
+/* шеврон праворуч (примітив дизайн-системи) */
+.landing__cat-arrow {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  color: var(--text-3);
+  transition: color 0.35s ease, transform 0.35s ease;
+}
+
+/* кнопка «дивитися товари» — окремим блоком знизу, по центру */
+.landing__cats-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 26px;
+}
+@media (min-width: 1024px) { .landing__cats-cta { margin-top: 34px; } }
+
+/* прев'ю-якір: напис + компактний стек круглих мініатюр + шеврон донизу */
+.landing__cats-anchor {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 100%;
+  padding: 10px 20px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r-btn);
+  background: #1a2225;
+  color: var(--white);
+  transition: border-color 0.35s ease, background-color 0.35s ease;
+}
+.landing__cats-anchor:hover,
+.landing__cats-anchor:focus-visible { border-color: var(--accent-line); background: #202a2d; }
+
+.landing__cats-anchor-text {
+  font-family: var(--font-btn);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.landing__cats-anchor-thumbs { display: inline-flex; flex: 0 0 auto; }
+.landing__cats-anchor-thumb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;             /* круглі чипи в тон круглій пігулці */
+  background: radial-gradient(118% 118% at 50% 22%, #232e32 0%, #0d1316 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.07),  /* делікатний внутрішній обідок */
+    0 0 0 2px #1a2225;                            /* розділювач у стеку = колір пігулки */
+  transition: box-shadow 0.35s ease;
+}
+.landing__cats-anchor-thumb + .landing__cats-anchor-thumb { margin-left: -11px; }
+.landing__cats-anchor:hover .landing__cats-anchor-thumb { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07), 0 0 0 2px #202a2d; }
+.landing__cats-anchor-thumb img {
+  width: 18px;                      /* компактний центрований виріз */
+  height: 18px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.55));
+}
+
+.landing__cats-anchor-chev {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-3);
+  transition: color 0.35s ease;
+}
+.landing__cats-anchor-chev svg { display: block; }
+.landing__cats-anchor:hover .landing__cats-anchor-chev,
+.landing__cats-anchor:focus-visible .landing__cats-anchor-chev { color: var(--accent); }
+
+@media (max-width: 559px) {
+  .landing__cat { min-height: 0; padding: 16px 18px; gap: 16px; }
+  .landing__cat-media { width: 104px; height: 104px; }
+  .landing__cat-body { gap: 40px; }
+  .landing__cats-anchor { gap: 12px; padding: 9px 16px; max-width: 100%; }
+  .landing__cats-anchor-thumb--last { display: none; }
+  .landing__cats-anchor-thumb { width: 30px; height: 30px; }
+  .landing__cats-anchor-thumb + .landing__cats-anchor-thumb { margin-left: -12px; }
+  .landing__cats-anchor-thumb img { width: 17px; height: 17px; }
+  .landing__cats-anchor-text { font-size: 12px; letter-spacing: 0.04em; }
+}
+
+/* ==========================================================================
+   4 · WHY US — редакторське «дос'є»: офер-знижка (ліворуч, акцентна зона)
+   + реєстр переваг рядками з роздільниками (праворуч, без карток-коробок).
+   ========================================================================== */
+.landing__why-board {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  overflow: hidden; /* акцентна зона зрізається по радіусу панелі */
+}
+@media (min-width: 1024px) {
+  .landing__why-board { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+
+/* --- ЛІВОРУЧ: офер-знижка ---
+   Фон — фото-фактура back_feature_discount (чорний кут → теплий бронзовий
+   спад донизу), накрите шарами для читабельності:
+   1) спрямований жовтий glow з кута заголовка (ідіома gallery-video / contacts-cta),
+   2) темний скрим, що густішає донизу — тримає футер-умови читабельними.
+   БЕЗ іконок/ілюстрацій — лише шари фону. */
+.landing__why-offer {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 26px;
+  background:
+    radial-gradient(120% 116% at 8% 4%, rgba(255, 214, 46, 0.18) 0%, rgba(255, 210, 29, 0.04) 40%, transparent 70%),
+    linear-gradient(176deg, rgba(15, 19, 21, 0.34) 0%, rgba(15, 19, 21, 0.30) 42%, rgba(15, 19, 21, 0.62) 100%),
+    url("assets/img/back_feature_discount.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+@media (min-width: 1024px) {
+  .landing__why-offer { padding: 44px 40px; }
+}
+@media (min-width: 1400px) { .landing__why-offer { padding: 52px 48px; } }
+
+/* іконка-знижка над заголовком — конгруентно з accent-іконками правого реєстру */
+.landing__why-offer-ico {
+  display: inline-flex;
+  margin: 0 0 16px;
+  color: var(--accent);
+}
+.landing__why-offer-ico svg { width: 30px; height: 30px; }
+
+.landing__why-offer-title {
+  margin: 0 0 16px;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1.12;
+  letter-spacing: 0.005em;
+  color: var(--white);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.landing__why-offer-title-hi { display: block; color: var(--accent); }
+@media (min-width: 1024px) { .landing__why-offer-title { font-size: 30px; } }
+@media (min-width: 1400px) { .landing__why-offer-title { font-size: 36px; } }
+
+.landing__why-offer-text {
+  margin: 0;
+  max-width: 38ch;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+@media (min-width: 1400px) { .landing__why-offer-text { font-size: 17px; } }
+
+.landing__why-offer-cta { margin-top: 28px; align-self: flex-start; }
+
+/* умови-футер «дос'є»: 2 стовпці в краях панелі (eyebrow + рядок) —
+   дзеркало реєстру About: спільна верхня лінія, жовтий акцент посегментно
+   над головним стовпцем. На десктопі притиснутий до нижнього краю панелі. */
+.landing__why-offer-foot {
+  margin: 30px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 480px) {
+  .landing__why-offer-foot { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .landing__why-offer-foot { margin-top: auto; padding-top: 30px; }
+}
+.landing__why-offer-foot-cell {
+  /* моб. (1 колонка): клітинки стоять стовпчиком — симетричний вертикальний
+     padding, щоб кожна лінія-роздільник (сіра/жовта) мала однакове повітря
+     і не приклеювалась до тексту попередньої клітинки */
+  padding: 16px 0;
+  border-top: 1px solid var(--border-soft);
+}
+@media (min-width: 480px) {
+  /* 2 колонки: спільна верхня лінія + вертикальний роздільник —
+     притискаємо вміст до верхньої лінії (малий нижній padding) */
+  .landing__why-offer-foot-cell { padding: 16px 18px 2px 0; }
+  .landing__why-offer-foot-cell + .landing__why-offer-foot-cell {
+    padding-left: 22px;
+    border-left: 1px solid var(--border-soft);
+  }
+}
+/* головний стовпець — жовта верхня лінія саме над ним (хірургічно) */
+.landing__why-offer-foot-cell--lead { border-top-color: var(--accent); }
+.landing__why-offer-foot-label {
+  margin: 0 0 8px;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.3;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.landing__why-offer-foot-cell--lead .landing__why-offer-foot-label { color: var(--accent); }
+.landing__why-offer-foot-text {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
+/* --- ПРАВОРУЧ: реєстр переваг (рядки з тонкими роздільниками) --- */
+.landing__why-ledger {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+.landing__why-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  column-gap: 18px;
+  flex: 1 1 0;
+  padding: 22px 26px;
+  border-top: 1px solid var(--border-soft);
+  transition: background-color 0.35s ease;
+}
+.landing__why-row:first-child { border-top: 0; }
+.landing__why-row:hover { background: var(--surface-1); }
+@media (min-width: 1024px) {
+  .landing__why-row { padding: 24px 30px; align-items: center; }
+  .landing__why-ledger { border-left: 1px solid var(--border-soft); }
+}
+@media (min-width: 1400px) { .landing__why-row { padding: 26px 36px; } }
+
+.landing__why-row-ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+.landing__why-row-ico svg { width: 26px; height: 26px; }
+
+.landing__why-row-body { min-width: 0; }
+.landing__why-row-title {
+  margin: 0 0 6px;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--white);
+}
+@media (min-width: 1400px) { .landing__why-row-title { font-size: 22px; } }
+.landing__why-row-text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+@media (min-width: 1400px) { .landing__why-row-text { font-size: 16px; } }
+
+/* мобільний/планшет: офер зверху, реєстр під ним */
+@media (max-width: 1023px) {
+  .landing__why-ledger { border-top: 1px solid var(--border-soft); }
+}
+
+/* мобільний (≤559): базові кеглі/відступи розраховані під планшет —
+   на вузькому екрані блок «дос'є» завеликий, тож пропорційно зменшуємо
+   паддінги, іконки та шрифти (конвенція max-width:559 як у категоріях) */
+@media (max-width: 559px) {
+  .landing__why-offer { padding: 22px 18px; }
+  .landing__why-offer-ico { margin-bottom: 12px; }
+  .landing__why-offer-ico svg { width: 24px; height: 24px; }
+  .landing__why-offer-title { font-size: 20px; margin-bottom: 12px; }
+  .landing__why-offer-text { font-size: 14px; }
+  .landing__why-offer-cta { margin-top: 20px; }
+  .landing__why-offer-foot { margin-top: 22px; }
+  .landing__why-offer-foot-label { font-size: 11px; margin-bottom: 6px; }
+  .landing__why-offer-foot-text { font-size: 13.5px; }
+
+  .landing__why-row { padding: 17px 18px; column-gap: 14px; }
+  .landing__why-row-ico svg { width: 22px; height: 22px; }
+  .landing__why-row-title { font-size: 16.5px; margin-bottom: 5px; }
+  .landing__why-row-text { font-size: 13.5px; }
+}
+/* foot — паддінги залежать від layout: 1-кол. (≤479) симетрично, 2-кол.
+   (480–559) тиснемо до верхньої лінії з меншими горизонт. відступами */
+@media (max-width: 479px) {
+  .landing__why-offer-foot-cell { padding: 13px 0; }
+}
+@media (min-width: 480px) and (max-width: 559px) {
+  .landing__why-offer-foot-cell { padding: 13px 14px 2px 0; }
+  .landing__why-offer-foot-cell + .landing__why-offer-foot-cell { padding-left: 16px; }
+}
+
+/* ==========================================================================
+   5 · CATALOG
+   ========================================================================== */
+.landing__catalog-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+.landing__tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px;
+  background: var(--surface-1);
+  box-shadow: inset 0 0 0 1px var(--border-soft);
+  border-radius: 99px;
+}
+.landing__tab {
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 99px;
+  background: transparent;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+.landing__tab:hover { color: var(--white); }
+.landing__tab.active { background: var(--accent); color: var(--black); }
+/* на вузьких екранах усі 4 категорії в один рядок (без переносу «Стенди» окремо) */
+@media (max-width: 480px) {
+  .landing__tabs { gap: 3px; padding: 5px; }
+  .landing__tab { padding: 9px 13px; font-size: 13px; letter-spacing: 0; }
+}
+
+/* сітка каталогу: на всю ширину контейнера (як .landing__cats-grid та сусідні блоки),
+   але картки flex-ом ростуть лише до max-width → не «розпухають» на широких екранах.
+   Видимі товари: 2 (моб/планшет) · 3 (десктоп) + картка-CTA в кінці → ряд повний
+   (на ≥~1150px це [товар товар товар CTA] в одному ряду). */
+.landing__catalog-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.landing__catalog-grid > li {
+  flex: 1 1 290px;
+  max-width: 400px;   /* стеля розміру — і товари, і CTA-картка не виходять завеликими */
+}
+
+/* На десктопі 3 товари + CTA = повний ряд; стрілки й тримач CTA приховані. */
+.landing__catalog-nav { display: none; }
+.landing__catalog-foot { display: none; }
+
+/* ── Слайдер каталогу на моб./планшеті (<1024px) ──
+   Сітка → горизонтальна стрічка зі snap-скролом; усі картки в категорії видимі
+   (зокрема --extra, бо стрічка тримає більше); навігація стрілками під сіткою. */
+@media (max-width: 1023px) {
+  /* у стрічці показуємо й 3-тю позицію — слайдер не «перевантажується» */
+  .shortcard.landing__product--extra { display: flex; }
+
+  .landing__catalog-grid {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 16px;
+    overflow-x: auto;
+    /* фіксуємо вертикаль: інакше overflow-x:auto «підтягує» overflow-y до auto,
+       і transform:translateY(22px) ще-не-проявлених карток (data-reveal) дає
+       люфт вертикального скролу, поки стрічку не прогорнуто до кінця */
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;            /* Firefox */
+    /* виліт за межі контейнера, щоб картки доходили до країв екрана */
+    margin-inline: calc(var(--container-padding, 20px) * -1);
+    padding-inline: var(--container-padding, 20px);
+    scroll-padding-inline: var(--container-padding, 20px);
+  }
+  .landing__catalog-grid::-webkit-scrollbar { display: none; } /* WebKit */
+
+  .landing__catalog-grid > li {
+    flex: 0 0 80%;                    /* одна картка + «визирок» наступної */
+    max-width: 360px;
+    scroll-snap-align: start;
+  }
+
+  /* навігація стрілками */
+  .landing__catalog-nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .landing__catalog-arrow {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: var(--surface-2);
+    border: 1px solid var(--border-soft);
+    color: var(--white);
+    cursor: pointer;
+    transition: border-color 0.25s ease, color 0.25s ease;
+  }
+  .landing__catalog-arrow:hover,
+  .landing__catalog-arrow:focus-visible {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .landing__catalog-arrow:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+  .landing__catalog-arrow:disabled:hover {
+    border-color: var(--border-soft);
+    color: var(--white);
+  }
+  .landing__catalog-arrow-ico {
+    width: 10px;
+    height: 10px;
+    border-top: 1.5px solid currentColor;
+    border-right: 1.5px solid currentColor;
+  }
+  .landing__catalog-arrow[data-dir="prev"] .landing__catalog-arrow-ico {
+    transform: rotate(-135deg);
+    margin-left: 4px;
+  }
+  .landing__catalog-arrow[data-dir="next"] .landing__catalog-arrow-ico {
+    transform: rotate(45deg);
+    margin-right: 4px;
+  }
+
+  /* CTA-картка винесена поза слайдер — завжди видима, на всю ширину */
+  .landing__catalog-foot {
+    display: block;
+    list-style: none;
+    margin: 24px 0 0;
+    padding: 0;
+  }
+  .landing__catalog-foot .landing__cta-card {
+    max-width: none;
+  }
+}
+
+/* ── картка товару 1в1 з amtarget.net/shop (.shortcard) ── */
+.shortcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  overflow: hidden;
+  padding: 20px;
+  transition: border-color 0.35s ease, color 0.35s ease;
+}
+.shortcard:hover { border-color: #00a046; color: #c9ffe1; }
+.shortcard:hover .btn-add_to_cart { background-color: #00a046; color: #fff; }
+.shortcard.is-hidden { display: none; }
+
+.shortcard__thumb { display: block; margin: -20px -20px 20px; }
+.shortcard__thumb img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 320 / 385;
+  object-fit: cover;
+}
+
+.shortcard__suptitle {
+  font-size: 13px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+}
+.shortcard__title {
+  display: block;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-wrap: balance;
+  color: inherit;
+  text-decoration: none;
+}
+
+.shortcard__price_wrap { margin-top: auto; }
+.shortcard__price_label {
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  opacity: 0.7;
+  margin-bottom: 8px;
+  margin-top: 20px;
+}
+.shortcard__price,
+.shortcard__old_price { display: inline-block; vertical-align: middle; }
+.shortcard__price {
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.shortcard__old_price {
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  text-decoration-line: line-through;
+  padding: 5px 6px 4px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin-left: 6px;
+}
+
+.shortcard .product_sale_tag { top: 15px; left: 15px; }
+.product_sale_tag {
+  position: absolute;
+  z-index: 10;
+  line-height: 1;
+  color: #000;
+  background-color: #ffd21d;
+  border-radius: 6px;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  padding: 5px;
+}
+
+.shortcard .btn-add_to_cart { margin-top: 16px; }
+.btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 46px;
+  border-radius: 10px;
+  padding: 0 15px;
+  line-height: 1;
+}
+.btn-add_to_cart {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  gap: 10px;
+}
+.btn-add_to_cart::after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background: center / cover no-repeat var(--ico-add_to_cart);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.btn-add_to_cart:hover { background-color: #00a046; color: #fff; }
+
+/* ── CTA-картка В СІТЦІ: остання комірка ряду (3 товари + ця картка = повний ряд;
+   на ≥~1150px стоїть В ОДНОМУ РЯДУ з товарами). Та сама висота, що в карток товарів
+   (flex align-items:stretch розтягує), але БЕЗ фото.
+   Композиція-«досьє»: число-якір зверху, опис, дії притиснуті донизу (margin-top:auto)
+   — заповнює всю висоту комірки, читається як офер, а не ще один товар.
+   Жовтий — хірургічно: тонкий тінт-фон + волосяна лінія + primary-кнопка. */
+.landing__cta-card {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 30px 28px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--r-shortcard);
+  background:
+    linear-gradient(180deg, var(--accent-tint) 0%, transparent 62%),
+    var(--surface-2);
+  text-align: left;
+}
+/* швейцарська «спек-шапка»: число-якорь + підпис на одній сітці (tabular stat).
+   flex-wrap: у вузькій комірці ряду підпис лягає під число (4-в-ряд тримається),
+   у ширшій (моб./планшет) — поряд із числом. */
+.landing__cta-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
+}
+.landing__cta-card-num {
+  flex: 0 0 auto;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 78px;
+  line-height: 0.74;
+  letter-spacing: -0.03em;
+  color: var(--white);
+}
+/* «+» — хірургічний акцент: дрібний, піднятий, єдина жовта крапка на числі */
+.landing__cta-card-plus {
+  font-size: 0.5em;
+  vertical-align: 0.42em;
+  margin-left: 0.04em;
+  color: var(--accent);
+}
+.landing__cta-card-label {
+  font-family: var(--font-heading);   /* BF_SUB_HEADLINE */
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 1.12;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.landing__cta-card-text {
+  margin: 0;
+  max-width: 34ch;
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--white);
+}
+.landing__cta-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;          /* притискаємо дії до низу — картка заповнює висоту ряду */
+  padding-top: 22px;
+  border-top: 1px solid var(--border-soft);
+}
+.landing__cta-card-actions .landing__btn { width: 100%; }
+.landing__cta-card-actions .landing__btn--ghost { min-height: 54px; }
+/* стрілка-шеврон притиснута праворуч (як у вторинних CTA дизайн-системи) */
+.landing__cta-card-actions .landing__btn--ghost .landing__btn-arrow { margin-left: 6px; }
+
+/* ==========================================================================
+   6 · GALLERY — bento + відео
+   ========================================================================== */
+.landing__gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 14px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 768px) { .landing__gallery-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
+.landing__gallery-itm {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.02) 0 12px, transparent 12px 24px),
+    var(--surface-1);
+  box-shadow: inset 0 0 0 1px var(--border-soft);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.35s ease;
+}
+/* інлайн-відео мішень (autoplay/muted/loop, lazy-load) */
+.landing__gallery-vid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.landing__gallery-itm:hover { box-shadow: inset 0 0 0 1px var(--accent-line); }
+.landing__gallery-itm::before { /* ретикул-кут */
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 14px; right: 14px;
+  width: 16px; height: 16px;
+  border-top: 1px solid var(--accent-line);
+  border-right: 1px solid var(--accent-line);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.landing__gallery-itm:hover::before { opacity: 1; }
+
+.landing__gallery-video {
+  position: relative;
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  min-height: 340px;
+  padding: 32px;
+  background:
+    radial-gradient(80% 130% at 50% 0%, rgba(255, 210, 29, 0.07), transparent 70%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.015) 0 2px, transparent 2px 4px),
+    var(--surface-1);
+  box-shadow: inset 0 0 0 1px var(--border-soft);
+  border-radius: var(--r-block);
+  overflow: hidden;
+  transition: box-shadow 0.35s ease;
+}
+@media (min-width: 1024px) { .landing__gallery-video { min-height: 480px; } }
+.landing__gallery-video:hover { box-shadow: inset 0 0 0 1px var(--accent-line); }
+.landing__gallery-video:hover .landing__gallery-play { box-shadow: 0 0 28px rgba(255, 210, 29, 0.55); transform: scale(1.06); }
+.landing__gallery-play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 66px; height: 66px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--black);
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
+}
+.landing__gallery-video-cap { position: relative; z-index: 1; font-size: 14px; line-height: 1.4; color: var(--white); text-align: center; }
+
+/* інлайн-прев'ю відео (autoplay/muted/loop) + затемнення для читабельності */
+.landing__gallery-video-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.landing__gallery-video::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: rgba(0, 0, 0, 0.5);
+  transition: background-color 0.35s ease;
+}
+.landing__gallery-video:hover::after { background: rgba(0, 0, 0, 0.36); }
+.landing__gallery-play { position: relative; z-index: 1; }
+
+/* ---- попап відео: хром із компонентів теми, контент переозначено під відео ---- */
+.popup__content.landing__video-content {
+  max-width: 1000px;
+  padding: 0;
+  border-radius: var(--r-block);
+  background: #000;
+  overflow: hidden;
+}
+.landing__video-player {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+/* ==========================================================================
+   7 · FAQ
+   ========================================================================== */
+.landing__faq-inner { display: grid; grid-template-columns: 1fr; gap: 32px; }
+@media (min-width: 1024px) { .landing__faq-inner { grid-template-columns: var(--col-2); gap: var(--col-gap); } }
+.landing__faq-list { margin: 0; }
+@media (min-width: 1024px) { .landing__faq-list { padding-top: 40px; } }
+.landing__faq-itm {
+  border-bottom: 1px solid var(--border-soft);
+  transition: background-color 0.35s ease;
+}
+.landing__faq-itm:first-child { border-top: 1px solid var(--border-soft); }
+.landing__faq-q {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 4px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.3;
+  color: var(--white);
+  list-style: none;
+  cursor: pointer;
+  transition: color 0.35s ease;
+}
+.landing__faq-q::-webkit-details-marker { display: none; }
+.landing__faq-q::before { /* індекс */
+  content: counter(faq, decimal-leading-zero);
+  counter-increment: faq;
+  flex: 0 0 auto;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+  transition: color 0.35s ease;
+}
+.landing__faq-list { counter-reset: faq; }
+.landing__faq-q:hover { color: var(--accent); }
+.landing__faq-q-text { flex: 1 1 auto; }
+.landing__faq-q::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--surface-2) center / 12px no-repeat;
+  box-shadow: inset 0 0 0 1px var(--border-soft);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 1v10M1 6h10' stroke='%23fff' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  transition: background-color 0.35s ease, transform 0.35s ease;
+}
+.landing__faq-itm[open] .landing__faq-q { color: var(--accent); }
+.landing__faq-itm[open] .landing__faq-q::before { color: var(--accent); }
+.landing__faq-itm[open] .landing__faq-q::after {
+  background-color: var(--accent);
+  box-shadow: 0 0 16px rgba(255, 210, 29, 0.5);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M1 6h10' stroke='%23000' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+.landing__faq-a {
+  padding: 0 40px 24px 38px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-2);
+}
+
+/* ==========================================================================
+   8 · ВІДГУКИ
+   ========================================================================== */
+.landing__reviews-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin: 0 0 26px;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 768px)  { .landing__reviews-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1024px) { .landing__reviews-grid { gap: 18px; } }
+
+/* картка відгуку: скоси TR+BL (як фото героя/лічильники) АЛЕ з заокругленими кутами TL+BR.
+   Кути TL/BR округлені дугою (2 проміжні точки); рамка — градієнт із підсвіченим верхнім краєм,
+   поверхня — об'ємна з теплим відблиском. Без hover (статична). */
+.landing__review {
+  --cut: clamp(16px, 1.6vw, 22px);    /* розмір скосу (TR + BL) */
+  --r: 10px;                          /* радіус заокруглення (TL + BR) */
+  position: relative;
+  padding: 1px;                       /* товщина рамки (градієнт-обводка) */
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.07) 42%);
+  border-radius: var(--r);            /* фолбек, якщо clip-path не підтримується */
+  clip-path: polygon(
+    /* округлений верхній лівий кут */
+    0 var(--r),
+    calc(var(--r) * 0.134) calc(var(--r) * 0.5),
+    calc(var(--r) * 0.5) calc(var(--r) * 0.134),
+    var(--r) 0,
+    /* верхній край → скіс верхнього правого кута */
+    calc(100% - var(--cut)) 0,
+    100% var(--cut),
+    /* правий край → округлений нижній правий кут */
+    100% calc(100% - var(--r)),
+    calc(100% - var(--r) * 0.134) calc(100% - var(--r) * 0.5),
+    calc(100% - var(--r) * 0.5) calc(100% - var(--r) * 0.134),
+    calc(100% - var(--r)) 100%,
+    /* нижній край → скіс нижнього лівого кута */
+    var(--cut) 100%,
+    0 calc(100% - var(--cut))
+  );
+}
+
+.landing__review-body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  height: 100%;
+  padding: 26px 24px 20px;
+  border-radius: inherit;
+  clip-path: inherit;                 /* та сама форма, перерахована на меншу (на 1px) коробку */
+  /* об'ємна поверхня замість плаского сірого: теплий відблиск у куті + світліший верх */
+  background:
+    radial-gradient(135% 90% at 100% 0%, rgba(255, 210, 29, 0.09), transparent 56%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.028));
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+}
+
+/* текст відгуку — ГЕРОЙ картки: великий, світлий, у фокусі */
+.landing__review-text {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.5;
+  letter-spacing: -0.005em;
+  color: rgba(255, 255, 255, 0.94);
+  text-wrap: pretty;
+}
+@media (min-width: 1024px) { .landing__review-text { font-size: 18px; } }
+
+/* підвал: автор + навмисно приглушений рейтинг (акцент на словах, не на зірочках) */
+.landing__review-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-soft);
+}
+.landing__review-author {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  color: var(--text-2);
+  text-transform: uppercase;
+}
+.landing__review-rating {
+  flex: 0 0 auto;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+/* нота безпеки — з іконкою-замком (OPSEC), без декоративних рисок */
+.landing__reviews-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-3);
+  text-align: center;
+}
+.landing__reviews-note svg { flex: 0 0 auto; }
+
+/* ==========================================================================
+   9 · ПРО КОМПАНІЮ
+   ========================================================================== */
+/* НЕСТАНДАРТНА КОМПОЗИЦІЯ — «технічне досьє» (схема A):
+   верхня зона = інтро (заголовок + лід) ліворуч + медіа-доказ праворуч;
+   нижня зона = реєстр спроможностей на ВСЮ ширину (горизонтальний регістр).
+   12-колонкова сітка тримає всі краї на спільних вертикалях. */
+
+/* фонове фото блоку (градієнт уже вшито у саме зображення) */
+.landing__about {
+  background-image: url("assets/img/back2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.landing__about-inner { display: grid; grid-template-columns: 1fr; gap: 30px; }
+@media (min-width: 1024px) {
+  .landing__about-inner {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+    row-gap: clamp(30px, 3vw, 48px);
+    align-items: start;
+    grid-template-areas:
+      "head head head head head head head media media media media media"
+      "body body body body body body body media media media media media"
+      "reg  reg  reg  reg  reg  reg  reg  reg  reg  reg  reg  reg";
+  }
+  .landing__about-head  { grid-area: head; margin-bottom: 0; } /* ритм задає row-gap */
+  .landing__about-body  { grid-area: body; }
+  .landing__about-reg   { grid-area: reg; }
+  .landing__about-media { grid-area: media; align-self: stretch; }
+}
+
+.landing__about-body { max-width: 860px; }
+.landing__about-text { margin: 0 0 18px; font-size: 16px; line-height: 1.65; color: var(--text-2); }
+.landing__about-text:last-child { margin-bottom: 0; }
+/* виділення ключових фактів у тексті — біле, не жовте (жовтий лишаємо хірургічно) */
+.landing__about-hi { font-weight: 600; color: var(--white); }
+
+/* реєстр-досьє замість карток-маркерів: тонкі лінії, поля-підписи, без коробок */
+.landing__about-reg {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border-soft);
+}
+.landing__about-reg-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  padding: 16px 2px;
+  border-bottom: 1px solid var(--border-soft);
+}
+@media (min-width: 480px) {
+  .landing__about-reg-row { grid-template-columns: 124px minmax(0, 1fr); gap: 0 20px; align-items: baseline; }
+}
+.landing__about-reg-label {
+  margin: 0;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.3;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.landing__about-reg-text {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+/* головний рядок (мобільний стек) — акцент, що відлунює жовте «повного циклу» */
+.landing__about-reg-row--lead { border-bottom-color: var(--accent-line); }
+.landing__about-reg-row--lead .landing__about-reg-label { color: var(--accent); }
+
+/* ── десктоп: горизонтальний регістр на всю ширину — 3 записи в ряд,
+   тонкі вертикальні роздільники, спільна верхня лінія (без коробок).
+   Іде ПІСЛЯ базових правил → override-и виграють за порядком джерела. ── */
+@media (min-width: 1024px) {
+  .landing__about-reg {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 0;            /* верхню лінію дає кожен запис → жовтий акцент посегментно */
+  }
+  .landing__about-reg-row {
+    display: block;
+    padding: 26px 36px 2px 0;
+    border-top: 1px solid var(--border-soft);
+    border-bottom: 0;
+  }
+  .landing__about-reg-row + .landing__about-reg-row {
+    padding-left: 36px;
+    border-left: 1px solid var(--border-soft);
+  }
+  .landing__about-reg-label { margin: 0 0 12px; }
+  /* головний запис — жовта верхня лінія саме над цим стовпцем (хірургічно) */
+  .landing__about-reg-row--lead { border-top-color: var(--accent); }
+}
+
+.landing__about-media {
+  position: relative;
+  margin: 0;
+  min-height: 300px;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r-block);
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.02) 0 12px, transparent 12px 24px),
+    var(--surface-1);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+}
+/* на десктопі висоту медіа задає сітка (тягнеться вздовж прози + реєстру),
+   тож штучний поріг прибрано — інакше він роздув би рядки лівої колонки */
+@media (min-width: 1024px) { .landing__about-media { min-height: 0; } }
+.landing__about-media-cap { font-size: 12px; line-height: 1.4; letter-spacing: 0.04em; color: var(--text-3); text-align: center; }
+/* відео «Про компанію»: та сама кібер-маска зі скосами (TR + BL), що й фото героя */
+.landing__about-media--video {
+  --cut: clamp(18px, 3.4vw, 30px);
+  --r: 8px;
+  padding: 1px;
+  border: 0;
+  overflow: hidden;
+  align-items: stretch;
+  justify-content: stretch;
+  background: var(--border-hover);
+  border-radius: var(--r) 0 var(--r) 0;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--cut)) 0,
+    100% var(--cut),
+    100% 100%,
+    var(--cut) 100%,
+    0 calc(100% - var(--cut))
+  );
+}
+.landing__about-video {
+  flex: 1 1 auto;
+  align-self: stretch;
+  display: block;
+  width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  clip-path: inherit;
+}
+.landing__about-since {
+  position: absolute;
+  z-index: 2;
+  top: 22px; right: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+.landing__about-since::before { content: ""; width: 18px; height: 1px; background: var(--accent-line); }
+
+/* ==========================================================================
+   10 · RFQ FORM — «польова заявка»
+   ========================================================================== */
+.landing__rfq-inner { display: grid; grid-template-columns: 1fr; gap: 36px; }
+@media (min-width: 1024px) { .landing__rfq-inner { grid-template-columns: var(--col-2); gap: var(--col-gap); align-items: start; } }
+/* ── шапка RFQ: kicker як у герої (крапка + приглушений напис) ── */
+.landing__rfq-head { margin: 0; }
+.landing__rfq-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 20px;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  color: var(--text-2);
+  text-transform: uppercase;
+}
+.landing__rfq-kicker-dot {
+  position: relative;
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+.landing__rfq-title .landing__title-accent { display: block; }
+
+/* ── процес замість «переваг»: технічний реєстр (тонкі лінії, без коробок) ── */
+.landing__rfq-steps {
+  margin: 30px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border-soft);
+}
+.landing__rfq-step {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 2px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.landing__rfq-step-ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-3);
+}
+.landing__rfq-step-body { min-width: 0; }
+.landing__rfq-step-text {
+  display: block;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--text-2);
+}
+/* точковий жовтий акцент лише на ключовій вигоді «за 30 хв» */
+.landing__rfq-step--key .landing__rfq-step-ico { color: var(--accent); }
+.landing__rfq-step-accent { color: var(--accent); font-weight: 700; }
+
+/* ── плашка форми: кібер-маска зі скосами (TR + BL), як на 1-2 екранах ── */
+@property --rfq-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.landing__rfq-form {
+  --cut: clamp(18px, 2.2vw, 28px);   /* розмір скосу */
+  --r: 8px;                          /* заокруглення TL + BR */
+  position: relative;
+  isolation: isolate;
+  padding: 24px;
+  /* рамка 1px: тиха жовта лінія + яскравий «бігунець», що їде по периметру плашки */
+  background:
+    conic-gradient(from var(--rfq-angle),
+      transparent 0deg,
+      transparent 275deg,
+      rgba(255, 210, 29, 0.35) 318deg,
+      rgba(255, 246, 204, 0.5) 335deg,
+      rgba(255, 210, 29, 0.35) 352deg,
+      transparent 360deg),
+    rgba(255, 210, 29, 0.22);
+  border-radius: var(--r) 0 var(--r) 0;
+  animation: rfq-border-run 4.5s linear infinite;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--cut)) 0,
+    100% var(--cut),
+    100% 100%,
+    var(--cut) 100%,
+    0 calc(100% - var(--cut))
+  );
+}
+.landing__rfq-form::before {         /* заливка-плашка, лишає 1px рамки по периметру */
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: #1d2526;
+  border-radius: inherit;
+  clip-path: inherit;
+}
+@keyframes rfq-border-run { to { --rfq-angle: 360deg; } }
+@media (prefers-reduced-motion: reduce) {
+  .landing__rfq-form { animation: none; }
+}
+@media (min-width: 768px) { .landing__rfq-form { padding: 32px; } }
+.landing__rfq-formhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.landing__rfq-formhead-title { margin: 0; font-weight: 500; font-size: 13px; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase; }
+.landing__rfq-formhead-id { font-weight: 700; font-size: 12px; letter-spacing: 0.06em; color: var(--text-3); }
+
+.landing__rfq-row { display: grid; grid-template-columns: 1fr; gap: 18px; margin-bottom: 18px; }
+@media (min-width: 600px) { .landing__rfq-row { grid-template-columns: 1fr 1fr; } }
+
+.landing__field { margin: 0 0 18px; padding: 0; border: 0; min-width: 0; }
+.landing__rfq-row .landing__field { margin: 0; }
+.landing__field-label {
+  display: block;
+  margin-bottom: 8px;
+  padding: 0;
+  font-size: 11px;
+  line-height: 1.2;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+  text-transform: uppercase;
+}
+.landing__field.required .landing__field-label::after { content: " *"; color: var(--accent); }
+.landing__field-opt { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--text-3); }
+.landing__field-input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 16px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.2;
+  color: var(--white);
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+}
+.landing__field-input::placeholder { color: var(--text-3); }
+.landing__field-input:hover { border-color: var(--border-hover); }
+.landing__field-input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 1px var(--accent); }
+.landing__field-hint { display: block; margin-top: 8px; font-size: 12px; line-height: 1.3; color: var(--text-3); }
+
+/* ── Зручний час для зв'язку — сегментований ВИБІР, а не поле вводу ──
+   лейбл зверху (моно-капс, як у полів), нижче — рядок рівних кнопок-сегментів.
+   На відміну від заливних темних інпутів — «привидні» (прозорі) кнопки;
+   жовтий — лише на обраному сегменті. */
+.landing__rfq-time { margin: 0 0 50px; }
+.landing__rfq-time > .landing__field-label {
+  display: block;
+  margin: 0 0 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.landing__chips {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+@media (max-width: 479px) { .landing__chips { grid-template-columns: repeat(2, 1fr); } }
+.landing__chip { display: block; cursor: pointer; }
+.landing__chip input { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.landing__chip-face {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 10px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  background: transparent;
+  font-size: 14px;
+  line-height: 1.1;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--text-2);
+  transition: border-color 0.35s ease, background-color 0.35s ease, color 0.35s ease;
+}
+.landing__chip:hover .landing__chip-face { border-color: var(--border-hover); color: var(--white); }
+.landing__chip input:checked + .landing__chip-face { border-color: var(--accent); background: transparent; color: var(--accent); font-weight: 600; }
+.landing__chip input:focus-visible + .landing__chip-face { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+
+/* ── EA-стиль поля: лейбл УСЕРЕДИНІ бокса зверху + велике значення під ним ──
+   рамка-бокс, моно-лейбл капсом (BF_MONO, як у референсі), значення heading-
+   шрифтом. Жовтий — лише на :focus-within і в зірочці required (точково). */
+.landing__field--box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 66px;
+  justify-content: center;
+  padding: 13px 16px 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+}
+.landing__field--box:hover { border-color: var(--border-hover); }
+.landing__field--box:focus-within { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.landing__field--box .landing__field-label {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.1;
+  letter-spacing: 0.12em;
+}
+/* інпут усередині бокса — без власної рамки/фону, значення великим шрифтом */
+.landing__field--box .landing__field-input {
+  width: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  color: var(--white);
+}
+.landing__field--box .landing__field-input:hover,
+.landing__field--box .landing__field-input:focus { border: 0; box-shadow: none; }
+.landing__field--box .landing__field-input::placeholder { color: var(--text-3); }
+
+.landing__consent { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; font-size: 14px; line-height: 1.35; color: var(--text-2); cursor: pointer; }
+.landing__consent input { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); }
+.landing__consent-face {
+  flex: 0 0 auto;
+  width: 22px; height: 22px;
+  border: 1px solid var(--border-hover);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.2) center / 12px no-repeat;
+  transition: background-color 0.35s ease, border-color 0.35s ease;
+}
+.landing__consent input:checked + .landing__consent-face {
+  border-color: var(--accent);
+  background-color: var(--accent);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-6' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.landing__consent input:focus-visible + .landing__consent-face { box-shadow: 0 0 0 2px var(--accent); }
+
+/* дія форми: жовтий CTA «Надіслати» зліва + прикріплювач PDF на правому краю —
+   обидва однакової висоти, читаються як пара «первинна + вторинна» дія */
+.landing__rfq-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 18px;
+  margin-bottom: 16px;
+}
+.landing__rfq-submit { margin-bottom: 0; }
+
+/* вторинна кнопка прикріплення: видима плашка (surface + рамка), а не тьмяний текст;
+   жовтий лишається CTA — тут акцент тільки на hover/focus, без руху й тіні */
+.landing__rfq-attach {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 60px;
+  max-width: 100%;
+  padding: 0 20px;
+  border: 1px solid var(--border-hover);
+  border-radius: var(--r-btn);
+  background: var(--surface-2);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: border-color 0.35s ease, color 0.35s ease, background-color 0.35s ease, box-shadow 0.35s ease;
+}
+.landing__rfq-attach:hover { border-color: var(--accent); color: var(--white); }
+.landing__rfq-attach:focus-within { border-color: var(--accent); color: var(--white); box-shadow: 0 0 0 1px var(--accent); }
+.landing__rfq-attach-input { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+/* скріпка — точковий жовтий акцент, що робить «прикріпити» зчитуваним без галасу */
+.landing__rfq-attach-ico { flex: 0 0 auto; display: inline-flex; color: var(--accent); }
+.landing__rfq-attach-text { min-width: 0; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* стан із прикріпленим файлом: світліший текст + жовта рамка-підтвердження */
+.landing__rfq-attach.is-filled { color: var(--white); border-color: var(--accent-line); background: var(--accent-tint); text-transform: none; letter-spacing: 0.01em; }
+
+.landing__rfq-disclaimer { margin: 0; font-size: 12px; line-height: 1.4; color: var(--text-3); }
+
+/* ==========================================================================
+   11 · CONTACTS — двозонна панель: яскравий зелений CTA + темні реквізити
+   ========================================================================== */
+.landing__contacts-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border-radius: var(--r-block);
+  box-shadow: inset 0 0 0 1px var(--border-soft);
+  overflow: hidden;
+}
+@media (min-width: 1024px) { .landing__contacts-panel { grid-template-columns: var(--col-2-rev); } }
+
+/* ── ЛІВА ЗОНА: заголовок-герой зверху + екшн-футер (особа + компактна кнопка) ──
+   жовтий слеб і фоновий приціл прибрано; структуру дають типографіка + лінії;
+   жовтий — ХІРУРГІЧНО (акцент-слово в заголовку + компактна кнопка) */
+.landing__contacts-cta {
+  position: relative;
+  min-width: 0;
+  padding: 30px 24px;
+  color: var(--text-2);
+  background:
+    radial-gradient(120% 80% at 0% 0%, rgba(0, 229, 105, 0.06), transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.01));
+}
+@media (min-width: 768px)  { .landing__contacts-cta { padding: 40px; } }
+@media (min-width: 1400px) { .landing__contacts-cta { padding: 52px 48px; } }
+
+/* тіло — flex-колонка на всю висоту зони (футер прикріплюється донизу) */
+.landing__contacts-cta-body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: 100%;
+  min-width: 0;
+}
+
+/* моно-eyebrow з тонкою лінією-продовженням */
+.landing__contacts-kicker {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin: 0 0 24px;
+}
+.landing__contacts-kicker-txt {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-right: -0.18em;
+}
+.landing__contacts-kicker-rule { flex: 1 1 auto; height: 1px; background: var(--border-soft); }
+
+/* заголовок-герой (прийом героя: одне слово жовтим) */
+.landing__contacts-title {
+  margin: 0 0 14px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-wrap: balance;
+}
+@media (min-width: 1024px) { .landing__contacts-title { font-size: 34px; } }
+@media (min-width: 1400px) { .landing__contacts-title { font-size: 38px; } }
+.landing__contacts-title-accent { color: var(--accent); }
+
+.landing__contacts-text {
+  max-width: 40ch;
+  margin: 0 0 28px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+@media (min-width: 1024px) { .landing__contacts-text { font-size: 15px; } }
+
+/* ── екшн-футер: особа+статус зліва, компактна кнопка справа, прикріплений донизу ── */
+.landing__contacts-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px 24px;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-soft);
+}
+
+/* особа: маленьке фото-бейдж + статус/підпис */
+.landing__manager {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+}
+.landing__manager-photo {
+  flex: 0 0 auto;
+  width: 48px; height: 48px;
+  margin: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--border-hover);
+}
+.landing__manager-photo img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 24%;
+  filter: grayscale(1) contrast(1.05);
+}
+@media (min-width: 1024px) { .landing__manager-photo { width: 54px; height: 54px; } }
+
+.landing__manager-id {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.landing__manager-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--white);
+}
+.landing__manager-cap { font-size: 12.5px; line-height: 1; color: var(--text-3); }
+.landing__manager-dot {
+  position: relative;
+  flex: 0 0 auto;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--l-green);
+  box-shadow: 0 0 8px rgba(0, 229, 105, 0.85);
+}
+.landing__manager-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(0, 229, 105, 0.5);
+  animation: amt-mgr-pulse 2.6s ease-out infinite;
+}
+@keyframes amt-mgr-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(0, 229, 105, 0.5); }
+  70%  { box-shadow: 0 0 0 8px rgba(0, 229, 105, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 229, 105, 0); }
+}
+
+/* компактна кнопка (НЕ на всю ширину) — менший габарит за акцентні CTA */
+.landing__contacts-action { flex: 0 0 auto; min-height: 52px; padding: 0 24px; font-size: 14px; }
+.landing__contacts-action .landing__btn-ico { color: var(--green); width: 18px; height: 18px; }
+
+/* ── ПРАВА ЗОНА: інші канали + прямі реквізити (темна поверхня) ── */
+.landing__contacts-rail {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 26px 24px;
+  background: var(--surface-1);
+  /* роздільник між зонами (тепер обидві темні): зверху на мобільному стеку */
+  border-top: 1px solid var(--border-soft);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+}
+@media (min-width: 768px)  { .landing__contacts-rail { padding: 36px; } }
+/* на десктопі зони поруч → роздільник зліва, не зверху */
+@media (min-width: 1024px) { .landing__contacts-rail { border-top: 0; border-left: 1px solid var(--border-soft); } }
+@media (min-width: 1400px) { .landing__contacts-rail { padding: 44px; } }
+
+/* інші канали */
+.landing__channels { width: 100%; }
+.landing__channels-label {
+  display: block;
+  margin-bottom: 13px;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.landing__channels-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.landing__channel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px 9px 12px;
+  border: 1px solid var(--border-soft);
+  border-radius: 99px;
+  background: var(--surface-1);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--white);
+  transition: border-color 0.35s ease, color 0.35s ease, background-color 0.35s ease;
+}
+.landing__channel:hover,
+.landing__channel:focus-visible {
+  border-color: rgba(0, 229, 105, 0.55);
+  background: rgba(0, 229, 105, 0.08);
+  color: var(--l-green);
+}
+.landing__channel-ico {
+  flex: 0 0 auto;
+  width: 18px; height: 18px;
+  color: var(--text-2);
+  transition: color 0.35s ease;
+}
+.landing__channel:hover .landing__channel-ico,
+.landing__channel:focus-visible .landing__channel-ico { color: var(--l-green); }
+
+.landing__rail-list {
+  margin: 22px 0 0;
+  padding: 22px 0 0;
+  list-style: none;
+  border-top: 1px solid var(--border-soft);
+}
+.landing__rail-itm {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+.landing__rail-itm:last-child { border-bottom: 0; }
+.landing__rail-label {
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.landing__rail-value {
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 1.2;
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+  word-break: break-word;
+  transition: color 0.35s ease;
+}
+@media (min-width: 1024px) { .landing__rail-value { font-size: 20px; } }
+.landing__rail-value--static { font-variant-numeric: normal; }
+a.landing__rail-value:hover,
+a.landing__rail-value:focus-visible { color: var(--accent); }
+
+/* офіційна-нота: тиха «бірка» в мові сайту — плашка ТЕМНІША за фон рейки
+   (втоплений well; відділяється тоном, БЕЗ обводки/тіней/градієнтів),
+   лаконічний жовтий значок-документ із галочкою. */
+.landing__rail-note {
+  display: flex;
+  align-items: center;          /* іконка-плашка та текст на одній горизонтальній лінії */
+  gap: 13px;
+  margin: 26px 0 0;
+  padding: 15px 16px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.25);
+}
+@media (min-width: 1024px) { .landing__rail-note { margin-top: auto; } }
+
+/* іконка «вписана» у власну плашку: ще темніший well (відділення тоном),
+   БЕЗ обводки/тіней/глоу/грані — за правилом rail-note */
+.landing__rail-note-plate {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+  background: rgba(0, 0, 0, 0.22);
+}
+.landing__rail-note-ico {
+  width: 22px;
+  height: 22px;
+  color: var(--accent);
+}
+.landing__rail-note-body { margin: 0; min-width: 0; }
+.landing__rail-note-title {
+  display: block;
+  font-weight: 600;
+  font-size: 13.5px;
+  line-height: 1.35;
+  color: var(--white);
+}
+.landing__rail-note-sub {
+  display: block;
+  margin-top: 4px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--text-3);
+}
+
+/* ==========================================================================
+   РУХ: поява при скролі + повага до prefers-reduced-motion
+   ========================================================================== */
+.amt-js .landing [data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--d, 0) * 1ms);
+}
+.amt-js .landing [data-reveal].is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .landing *,
+  .landing *::before,
+  .landing *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .amt-js .landing [data-reveal] { opacity: 1 !important; transform: none !important; }
+  .landing__btn:hover,
+  .landing__product:hover,
+  .landing__gallery-play { transform: none !important; }
+}
+
+/* ==========================================================================
+   ДЕСКТОП: збільшений кегль текстових блоків
+   Зведено в один блок (іде останнім → перекриває попередні @media-правила).
+   Чіпає лише читабельність копії/лейблів; заголовки H2 не торкаємось.
+   ========================================================================== */
+@media (min-width: 1024px) {
+  /* секційний підзаголовок (cats / faq / rfq / reviews lead) */
+  .landing__lead { font-size: 20px; }
+
+  /* 1 · HERO */
+  .landing__hero-subtitle { font-size: 24px; }
+  .landing__hero-spec-num { font-size: 17px; }
+  .landing__hero-spec-text { font-size: 20px; }
+
+  /* 3 · КАТЕГОРІЇ */
+  .landing__cat-name { font-size: 21px; }
+  .landing__cat-count { font-size: 12.5px; letter-spacing: 0.06em; }
+  .landing__cat-count b { font-size: 14px; }
+
+  /* 4 · WHY US — офер */
+  .landing__why-offer-text { font-size: 19px; }
+  .landing__why-offer-foot-text { font-size: 15px; }
+
+  /* 7 · FAQ */
+  .landing__faq-q { font-size: 20px; }
+  .landing__faq-q::before { font-size: 16px; }
+  .landing__faq-a { font-size: 18px; }
+
+  /* 9 · ПРО КОМПАНІЮ */
+  .landing__about-text { font-size: 20px; }
+  .landing__about-reg-label { font-size: 14px; }
+  .landing__about-reg-text { font-size: 18px; }
+
+  /* 10 · RFQ — переваги */
+  .landing__rfq-step { grid-template-columns: 28px 1fr; gap: 18px; }
+  .landing__rfq-step-text { font-size: 17px; }
+
+  /* 11 · КОНТАКТИ */
+  .landing__contacts-kicker-txt { font-size: 13px; }
+  .landing__manager-status { font-size: 14px; }
+  .landing__contacts-text { font-size: 18px; }
+  .landing__channels-label { font-size: 12px; }
+  .landing__channel { font-size: 14px; }
+  .landing__rail-label { font-size: 12px; }
+  .landing__rail-value { font-size: 22px; }
+  .landing__rail-note-title { font-size: 14px; }
+  .landing__rail-note-sub { font-size: 12.5px; }
+}
+
+/* широкі екрани — крупні абзаци ще трохи більші (іде після @1024 → виграє) */
+@media (min-width: 1400px) {
+  .landing__lead { font-size: 21px; }
+  .landing__cats-lead { font-size: 20px; }
+  .landing__hero-subtitle { font-size: 25px; }
+  .landing__why-offer-text { font-size: 20px; }
+}

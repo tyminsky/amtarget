@@ -1,0 +1,115 @@
+/* ============================================================
+   БЕКАП CSS БЛОКУ «landing__about» (9 · ПРО КОМПАНІЮ)
+   Дата: 2026-06-02 — стан ДО рефактору композиції.
+   Відповідник у style.css: секція «9 · ПРО КОМПАНІЮ».
+   Як відкотити: заміни поточну секцію в style.css на цей блок.
+   ============================================================ */
+
+/* ==========================================================================
+   9 · ПРО КОМПАНІЮ
+   ========================================================================== */
+.landing__about-inner { display: grid; grid-template-columns: 1fr; gap: 36px; align-items: center; }
+@media (min-width: 1024px) { .landing__about-inner { grid-template-columns: var(--col-2); gap: var(--col-gap); align-items: stretch; } }
+.landing__about-text { max-width: 560px; margin: 22px 0 30px; font-size: 16px; line-height: 1.65; color: var(--text-2); }
+/* виділення ключових фактів у тексті — біле, не жовте (жовтий лишаємо хірургічно) */
+.landing__about-hi { font-weight: 600; color: var(--white); }
+
+/* реєстр-досьє замість карток-маркерів: тонкі лінії, поля-підписи, без коробок */
+.landing__about-reg {
+  max-width: 560px;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border-soft);
+}
+.landing__about-reg-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  padding: 16px 2px;
+  border-bottom: 1px solid var(--border-soft);
+}
+@media (min-width: 480px) {
+  .landing__about-reg-row { grid-template-columns: 124px minmax(0, 1fr); gap: 0 20px; align-items: baseline; }
+}
+.landing__about-reg-label {
+  margin: 0;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.3;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.landing__about-reg-text {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+/* головний рядок — акцент, що відлунює жовте «повного циклу» в заголовку */
+.landing__about-reg-row--lead { border-bottom-color: var(--accent-line); }
+.landing__about-reg-row--lead .landing__about-reg-label { color: var(--accent); }
+
+.landing__about-media {
+  position: relative;
+  margin: 0;
+  min-height: 300px;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r-block);
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.02) 0 12px, transparent 12px 24px),
+    var(--surface-1);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+}
+@media (min-width: 1024px) { .landing__about-media { min-height: 420px; } }
+.landing__about-media-cap { font-size: 12px; line-height: 1.4; letter-spacing: 0.04em; color: var(--text-3); text-align: center; }
+/* відео «Про компанію»: та сама кібер-маска зі скосами (TR + BL), що й фото героя */
+.landing__about-media--video {
+  --cut: clamp(18px, 3.4vw, 30px);
+  --r: 8px;
+  padding: 1px;
+  border: 0;
+  overflow: hidden;
+  align-items: stretch;
+  justify-content: stretch;
+  background: var(--border-hover);
+  border-radius: var(--r) 0 var(--r) 0;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--cut)) 0,
+    100% var(--cut),
+    100% 100%,
+    var(--cut) 100%,
+    0 calc(100% - var(--cut))
+  );
+}
+.landing__about-video {
+  flex: 1 1 auto;
+  align-self: stretch;
+  display: block;
+  width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  clip-path: inherit;
+}
+.landing__about-since {
+  position: absolute;
+  z-index: 2;
+  top: 22px; right: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+.landing__about-since::before { content: ""; width: 18px; height: 1px; background: var(--accent-line); }
