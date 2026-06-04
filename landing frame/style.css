@@ -533,15 +533,18 @@
   }
   /* H1 над контентом; без відʼємного відступу → нижній ряд «дихає», а не підтягнутий впритул */
   .landing__hero-g-title { grid-area: title; max-width: min(100%, 1010px); margin: 0; }
-  /* спеки тепер праворуч → притискаємо до правого краю колонки */
+  /* спеки тепер праворуч → притискаємо до правого краю колонки.
+     padding-bottom тримає бокс бот-лайнутим (по нотатці), але піднімає видимий
+     список угору → останній пункт лягає на нижню лінію КНОПОК, а не нотатки */
   .landing__hero-g-specs { grid-area: specs; align-self: end; margin-left: auto; }
+  .landing__hero--banner .landing__hero-specs { padding-bottom: 24px; }
   .landing__hero-g-side  {
     grid-area: side;
     align-self: end;             /* низ блоку (кнопки) на одній лінії зі спеками праворуч */
     width: fit-content;          /* ширина = по найширшому (кнопки) */
     max-width: 100%;
     /* тепер ліворуч → лівим краєм по краю колонки (без margin-left:auto) */
-    gap: clamp(16px, 1.8vw, 24px); /* підзаголовок ближче до кнопок (трохи щільніше) */
+    gap: clamp(24px, 2.5vw, 36px); /* повітря між підзаголовком і кнопками */
   }
 }
 
@@ -734,14 +737,12 @@
 }
 .landing__hero--banner .landing__hero-note-ico { color: var(--accent); }
 .landing__hero-note-accent { color: var(--l-green); font-weight: 700; }
-/* десктоп: нотатку «30 хв» виводимо з потоку вниз під кнопки → її висота більше не
-   подовжує блок-side, тож кнопки і спеки праворуч лягають рівно на одну нижню лінію */
+/* десктоп: нотатка «30 хв» лишається В ПОТОЦІ під кнопками — тоді реальний низ
+   блоку-side = нотатка, і спеки праворуч (align-self:end) лягають рівно по ній,
+   а не «зависають» вище. padding-bottom героя відділяє нотатку від розділювача */
 @media (min-width: 1024px) {
   .landing__hero--banner .landing__hero-note {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    margin: clamp(16px, 1.6vw, 22px) 0 0;
+    margin: clamp(22px, 2.2vw, 30px) 0 0;
     white-space: nowrap;
   }
 }
@@ -1254,17 +1255,19 @@
 @media (min-width: 1024px) { .landing__why-offer-title { font-size: 30px; } }
 @media (min-width: 1400px) { .landing__why-offer-title { font-size: 36px; } }
 
-.landing__why-offer-cta { margin-top: 36px; align-self: flex-start; }
+.landing__why-offer-cta { margin-top: 60px; align-self: flex-start; }
 
-/* умови як двоярусні булети (дзеркало рядків правого реєстру: тезис + опис):
-   жовтий шеврон-маркер конгруентно зі стрілками кнопок, без коробок/ліній */
+/* умови як однорядкові булети (теза + уточнення в один рядок, без ярусів):
+   жовтий шеврон-маркер конгруентно зі стрілками кнопок, без коробок/ліній.
+   відступи навколо списку розширені, щоб композиція тримала ту саму висоту
+   й кнопка впиралась у нижній padding так само, як із двоярусними булетами */
 .landing__why-offer-foot {
-  margin: 30px 0 0;
+  margin: 56px 0 0;
   padding: 0;
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 26px;
 }
 .landing__why-offer-foot-cell {
   position: relative;
@@ -1274,30 +1277,29 @@
   content: "";
   position: absolute;
   left: 4px;
-  top: 0.62em;
+  top: 0.74em;
   width: 7px;
   height: 7px;
   border-right: 2px solid var(--accent);
   border-bottom: 2px solid var(--accent);
   transform: translateY(-50%) rotate(-45deg);
 }
+/* теза й уточнення — один безперервний рядок: різниця лише вагою/кольором */
 .landing__why-offer-foot-label {
-  display: block;
-  margin-bottom: 5px;
   font-weight: 700;
   font-size: 17px;
-  line-height: 1.25;
+  line-height: 1.45;
   color: var(--white);
 }
 .landing__why-offer-foot-text {
-  display: block;
-  font-size: 15px;
-  line-height: 1.5;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.45;
   color: var(--text-2);
 }
 @media (min-width: 1400px) {
-  .landing__why-offer-foot-label { font-size: 18px; }
-  .landing__why-offer-foot-text { font-size: 15.5px; }
+  .landing__why-offer-foot-label,
+  .landing__why-offer-foot-text { font-size: 18px; }
 }
 
 /* --- ПРАВОРУЧ: реєстр переваг (рядки з тонкими роздільниками) --- */
@@ -1368,8 +1370,8 @@
   .landing__why-offer-cta { margin-top: 24px; }
   .landing__why-offer-foot { margin-top: 22px; gap: 18px; }
   .landing__why-offer-foot-cell { padding-left: 26px; }
-  .landing__why-offer-foot-label { font-size: 15px; }
-  .landing__why-offer-foot-text { font-size: 13.5px; }
+  .landing__why-offer-foot-label,
+  .landing__why-offer-foot-text { font-size: 15px; }
 
   .landing__why-row { padding: 17px 18px; column-gap: 14px; }
   .landing__why-row-ico svg { width: 22px; height: 22px; }
