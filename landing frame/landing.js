@@ -52,10 +52,14 @@
     revealItems.forEach(function (el) { io.observe(el); });
   }
 
-  /* ---- 1b. Лінива підгрузка відео-мішеней (не вантажиться на старті) ---- *
+  /* ---- 1b. Лінива підгрузка декоративних відео (не вантажиться на старті) ---- *
    * preload="none" + data-src: байти відео тягнуться й автоплей стартує лише
-   * коли картка входить у в'юпорт → нульовий вплив на початкове завантаження. */
-  var galVids = Array.prototype.slice.call(root.querySelectorAll('.landing__gallery-vid'));
+   * коли елемент входить у в'юпорт → нульовий вплив на початкове завантаження.
+   * Охоплює: відео-мішені галереї, інлайн-прев'ю «з полігону» та фонове відео
+   * блоку «Про компанію» (amtarget.mp4 ~2.6 МБ — найважче, тепер поза стартом). */
+  var galVids = Array.prototype.slice.call(
+    root.querySelectorAll('.landing__gallery-vid, .landing__gallery-video-media, .landing__about-video')
+  );
   function loadGalVid(v) {
     if (v.dataset.loaded) return;
     var src = v.getAttribute('data-src');

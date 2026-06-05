@@ -18,11 +18,13 @@ landing/
 ├─ style.css               # СТИЛІ ЛЕНДІНГУ — лише нові правила під .landing
 ├─ landing.js              # власний vanilla-JS лендінгу (progressive enhancement)
 ├─ README.md               # цей файл
-└─ assets/
-   ├─ css/
-   │   └─ styles.css        # ПОВНИЙ CSS сайту (копія theme/assets/css/styles.css)
-   ├─ fonts/                # HelveticaNeueCyr 400/500/700 + BF_Modernista 700 (woff2/woff/ttf)
-   └─ img/                  # sprite.svg, logo.svg, logo-footer.svg, payments.svg, opr_tick-ua.svg
+├─ assets/
+│  ├─ css/
+│  │   └─ styles.css        # ПОВНИЙ CSS сайту (копія theme/assets/css/styles.css)
+│  ├─ fonts/                # HelveticaNeueCyr 400/500/700 + BF_* (лише woff2 — підтримка ~99%)
+│  ├─ img/                  # SVG (sprite/logo/divider…) + растри у WebP (фото/товари/фони)
+│  └─ video/                # mp4 (усі підвантажуються ліниво, поза стартом)
+└─ _src-originals/          # оригінали png/jpg + бекап css (НЕ для деплою; джерело для ре-конвертації)
 ```
 
 Структура `assets/css` ↔ `assets/fonts` ↔ `assets/img` **дзеркалить тему**, тому
@@ -33,18 +35,30 @@ landing/
 
 ## 2. Як влаштовані стилі
 
-У `<head>` стилі підключені у такому порядку (порядок = каскад):
+У `<head>` стилі підключені у такому порядку (порядок DOM = каскад):
 
 ```html
-<link rel="stylesheet" href="assets/css/styles.css">  <!-- 1. повний CSS сайту -->
-<link rel="stylesheet" href="style.css">              <!-- 2. стилі лендінгу -->
+<style> …критичний інлайн-мінімум: темний фон + фікс-хедер… </style>
+
+<!-- 1. повна тема (240KB) — НЕ блокує рендер (media-swap), лишається на DOM-позиції 1 -->
+<link rel="stylesheet" href="assets/css/styles.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="assets/css/styles.css"></noscript>
+
+<!-- 2. стилі лендінгу — критичний шар, лишається блокуючим -->
+<link rel="stylesheet" href="style.css">
 ```
 
 1. **`assets/css/styles.css`** — увесь стиль теми: reset, токени, типографіка,
-   `.container`, `.header*`, `.footer*`, `.btn`, `.richtext`, `.content_builder` тощо.
-   Завдяки цьому шапка й футер виглядають **1:1 як на сайті**.
-2. **`style.css`** — підключається **останнім**, тож завжди може перекрити сайтове
-   правило всередині `.landing`.
+   `.container`, `.header*`, `.footer*`, `.btn` тощо. Завантажується **асинхронно**
+   (`media="print"`→`all` по `onload`), тож не блокує перший рендер. Лишається на
+   **DOM-позиції 1**, тому `.landing`-перевизначення з `style.css` коректно перекривають.
+   Поки тема їде — інлайн-`<style>` тримає темний фон і фікс-хедер (без білого спалаху).
+2. **`style.css`** — підключається **останнім** (блокуючий), тож завжди може перекрити
+   сайтове правило всередині `.landing`.
+
+> ⚠️ Не повертайте тему на звичайний `rel="stylesheet"` без `media`-swap — це знову
+> зробить її render-blocking. І не міняйте місцями два `<link>`: каскад тримається на
+> DOM-порядку (тема → лендінг).
 
 ---
 

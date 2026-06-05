@@ -225,7 +225,7 @@ html {
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/HelveticaNeueCyr-Roman.woff2") format("woff2");
+  src: url("../fonts/HelveticaNeueCyr-Roman.woff2") format("woff2"), url("../fonts/HelveticaNeueCyr-Roman.woff") format("woff"), url("../fonts/HelveticaNeueCyr-Roman.ttf") format("truetype");
 }
 
 @font-face {
@@ -233,7 +233,7 @@ html {
   font-weight: 500;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/HelveticaNeueCyr-Medium.woff2") format("woff2");
+  src: url("../fonts/HelveticaNeueCyr-Medium.woff2") format("woff2"), url("../fonts/HelveticaNeueCyr-Medium.woff") format("woff"), url("../fonts/HelveticaNeueCyr-Medium.ttf") format("truetype");
 }
 
 @font-face {
@@ -241,7 +241,7 @@ html {
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/HelveticaNeueCyr-Bold.woff2") format("woff2");
+  src: url("../fonts/HelveticaNeueCyr-Bold.woff2") format("woff2"), url("../fonts/HelveticaNeueCyr-Bold.woff") format("woff"), url("../fonts/HelveticaNeueCyr-Bold.ttf") format("truetype");
 }
 
 @font-face {
@@ -249,7 +249,7 @@ html {
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/BF_Modernista-Bold.woff2") format("woff2");
+  src: url("../fonts/BF_Modernista-Bold.woff2") format("woff2"), url("../fonts/BF_Modernista-Bold.woff") format("woff"), url("../fonts/BF_Modernista-Bold.ttf") format("truetype");
 }
 
 /* Battlefield 6 sub-headline — шрифт кнопок (як --button-font-family: bfheading на ea.com) */
@@ -258,7 +258,7 @@ html {
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/BF_SUB_HEADLINE_BOLD.woff2") format("woff2");
+  src: url("../fonts/BF_SUB_HEADLINE_BOLD.woff2") format("woff2"), url("../fonts/BF_SUB_HEADLINE_BOLD.woff") format("woff"), url("../fonts/BF_SUB_HEADLINE_BOLD.ttf") format("truetype");
 }
 
 /* Battlefield 6 body — шрифт лід/підзаголовкового тексту (як --body-font-family: bfbody на ea.com) */
@@ -267,7 +267,7 @@ html {
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/BF_TEXT_REGULAR.woff2") format("woff2");
+  src: url("../fonts/BF_TEXT_REGULAR.woff2") format("woff2"), url("../fonts/BF_TEXT_REGULAR.woff") format("woff"), url("../fonts/BF_TEXT_REGULAR.ttf") format("truetype");
 }
 
 /* Battlefield 6 mono — надзаголовки/утиліта (як --utility-font-family: bfutility на ea.com) */
@@ -276,7 +276,7 @@ html {
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/BF_MONO_BOOK.woff2") format("woff2");
+  src: url("../fonts/BF_MONO_BOOK.woff2") format("woff2"), url("../fonts/BF_MONO_BOOK.woff") format("woff"), url("../fonts/BF_MONO_BOOK.ttf") format("truetype");
 }
 
 html,

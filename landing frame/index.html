@@ -10,18 +10,27 @@
   <!-- позначка наявності JS: до підключення landing.js контент видимий (без FOUC) -->
   <script>document.documentElement.classList.add('amt-js');</script>
 
-  <!-- прелоад ключових шрифтів -->
-  <link rel="preload" href="assets/fonts/HelveticaNeueCyr-Roman.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/HelveticaNeueCyr-Medium.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/HelveticaNeueCyr-Bold.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/BF_Modernista-Bold.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/BF_SUB_HEADLINE_BOLD.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/BF_TEXT_REGULAR.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/BF_MONO_BOOK.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- прелоад лише шрифтів «над згином» (hero + шапка). Решта (BF_SUB_HEADLINE,
+       BF_TEXT, Helvetica-Bold) доїжджають через @font-face з font-display:swap. -->
+  <link rel="preload" href="assets/fonts/BF_Modernista-Bold.woff2" as="font" type="font/woff2" crossorigin><!-- H1 героя -->
+  <link rel="preload" href="assets/fonts/HelveticaNeueCyr-Roman.woff2" as="font" type="font/woff2" crossorigin><!-- база UI/тіло -->
+  <link rel="preload" href="assets/fonts/HelveticaNeueCyr-Medium.woff2" as="font" type="font/woff2" crossorigin><!-- кнопки шапки -->
+  <link rel="preload" href="assets/fonts/BF_MONO_BOOK.woff2" as="font" type="font/woff2" crossorigin><!-- eyebrow героя -->
 
-  <!-- ПОВНИЙ CSS сайту (усі стилі теми доступні на сторінці) -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=20260602" media="all">
-  <!-- стилі лендінгу (нові правила під .landing) -->
+  <!-- критичний інлайн-мінімум: темний фон + фікс-хедер до приходу теми (без білого спалаху й стрибка) -->
+  <style>
+    html,body{margin:0;background:#161D1E}
+    body{min-width:320px;overflow-x:hidden;color:#fff;font-family:"HelveticaNeueCyr",Helvetica,Arial,sans-serif}
+    .header{position:fixed;top:0;left:0;width:100%;z-index:101}
+    .header_placeholder{height:128px}
+  </style>
+
+  <!-- ПОВНА тема сайту (240KB) — важка й НЕ критична для 1-го екрана → вантажиться НЕ блокуючи рендер
+       (media-swap: лишається на DOM-позиції 1, тож .landing-перевизначення нижче коректно перекривають). -->
+  <link rel="stylesheet" href="assets/css/styles.css?v=20260602" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="assets/css/styles.css?v=20260602"></noscript>
+
+  <!-- стилі лендінгу (правила під .landing) — критичний візуальний шар, лишається блокуючим -->
   <link rel="stylesheet" href="style.css?v=20260602" media="all">
 </head>
 
@@ -120,14 +129,13 @@
   <div class="header_placeholder"></div>
 
   <!-- ============ КОНТЕНТ ЛЕНДІНГУ ============ -->
-  <!-- ============ КОНТЕНТ ЛЕНДІНГУ ============ -->
   <main class="landing">
 
     <!-- ───────── 1 · HERO (банер-варіант) ───────── -->
     <section class="landing__hero landing__hero--banner">
       <!-- фон-банер: фото на всю ширину, плавно гасне у тло сторінки -->
       <div class="landing__hero-bg" aria-hidden="true">
-        <img class="landing__hero-bg-img" src="assets/img/main_photo.png" width="1536" height="1024" loading="eager" decoding="async"
+        <img class="landing__hero-bg-img" src="assets/img/main_photo.webp" width="1536" height="1024" loading="eager" fetchpriority="high" decoding="async"
              alt="Військові ведуть вогонь по сталевих мішенях A.M. Target на полігоні">
       </div>
 
@@ -243,7 +251,7 @@
           <li data-reveal>
             <a href="#catalog" class="landing__panel landing__cat">
               <span class="landing__cat-media">
-                <img class="landing__cat-photo" src="assets/img/gong_combat_sniper-tr.png" alt="" width="92" height="92" loading="lazy" decoding="async">
+                <img class="landing__cat-photo" src="assets/img/gong_combat_sniper-tr.webp" alt="" width="92" height="92" loading="lazy" decoding="async">
                 <span class="landing__cat-ico" aria-hidden="true">
                   <svg width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg>
                 </span>
@@ -260,7 +268,7 @@
           <li data-reveal>
             <a href="#catalog" class="landing__panel landing__cat">
               <span class="landing__cat-media">
-                <img class="landing__cat-photo" src="assets/img/ipsc-tr.png" alt="" width="92" height="92" loading="lazy" decoding="async">
+                <img class="landing__cat-photo" src="assets/img/ipsc-tr.webp" alt="" width="92" height="92" loading="lazy" decoding="async">
                 <span class="landing__cat-ico" aria-hidden="true">
                   <svg width="18" height="18" viewBox="0 0 22 22"><circle cx="11" cy="11" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="11" cy="11" r="3" fill="currentColor"/></svg>
                 </span>
@@ -277,7 +285,7 @@
           <li data-reveal>
             <a href="#catalog" class="landing__panel landing__cat">
               <span class="landing__cat-media">
-                <img class="landing__cat-photo" src="assets/img/popper_1-tr.png" alt="" width="92" height="92" loading="lazy" decoding="async">
+                <img class="landing__cat-photo" src="assets/img/popper_1-tr.webp" alt="" width="92" height="92" loading="lazy" decoding="async">
                 <span class="landing__cat-ico" aria-hidden="true">
                   <svg width="18" height="18" viewBox="0 0 22 22"><circle cx="11" cy="8" r="5" fill="currentColor"/><rect x="9.5" y="12" width="3" height="8" rx="1.5" fill="currentColor"/></svg>
                 </span>
@@ -294,7 +302,7 @@
           <li data-reveal>
             <a href="#catalog" class="landing__panel landing__cat">
               <span class="landing__cat-media">
-                <img class="landing__cat-photo" src="assets/img/tr-m-tr.png" alt="" width="92" height="92" loading="lazy" decoding="async">
+                <img class="landing__cat-photo" src="assets/img/tr-m-tr.webp" alt="" width="92" height="92" loading="lazy" decoding="async">
                 <span class="landing__cat-ico" aria-hidden="true">
                   <svg width="18" height="18" viewBox="0 0 22 22"><path d="M11 3v16M5 19l6-10 6 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
@@ -311,7 +319,7 @@
           <li data-reveal>
             <a href="#catalog" class="landing__panel landing__cat">
               <span class="landing__cat-media">
-                <img class="landing__cat-photo" src="assets/img/bullet_hard_1-tr.png" alt="" width="92" height="92" loading="lazy" decoding="async">
+                <img class="landing__cat-photo" src="assets/img/bullet_hard_1-tr.webp" alt="" width="92" height="92" loading="lazy" decoding="async">
                 <span class="landing__cat-ico" aria-hidden="true">
                   <svg width="18" height="18" viewBox="0 0 22 22"><rect x="3" y="3" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 14l5-4 4 3 3-3 4 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
                 </span>
@@ -328,7 +336,7 @@
           <li data-reveal>
             <a href="#catalog" class="landing__panel landing__cat">
               <span class="landing__cat-media">
-                <img class="landing__cat-photo" src="assets/img/texas_star-tr.png" alt="" width="92" height="92" loading="lazy" decoding="async">
+                <img class="landing__cat-photo" src="assets/img/texas_star-tr.webp" alt="" width="92" height="92" loading="lazy" decoding="async">
                 <span class="landing__cat-ico" aria-hidden="true">
                   <svg width="18" height="18" viewBox="0 0 22 22"><path d="M11 2l2.6 5.7 6.2.7-4.6 4.2 1.3 6.1L11 16l-5.5 2.9 1.3-6.1L2.2 8.4l6.2-.7z" fill="currentColor"/></svg>
                 </span>
@@ -348,10 +356,10 @@
           <a href="#catalog" class="landing__cats-anchor" data-reveal>
             <span class="landing__cats-anchor-text">Дивитися товари нижче</span>
             <span class="landing__cats-anchor-thumbs" aria-hidden="true">
-              <span class="landing__cats-anchor-thumb"><img src="assets/img/gong_combat_sniper-tr.png" alt="" width="34" height="34" loading="lazy" decoding="async"></span>
-              <span class="landing__cats-anchor-thumb"><img src="assets/img/ipsc-tr.png" alt="" width="34" height="34" loading="lazy" decoding="async"></span>
-              <span class="landing__cats-anchor-thumb"><img src="assets/img/popper_1-tr.png" alt="" width="34" height="34" loading="lazy" decoding="async"></span>
-              <span class="landing__cats-anchor-thumb landing__cats-anchor-thumb--last"><img src="assets/img/texas_star-tr.png" alt="" width="34" height="34" loading="lazy" decoding="async"></span>
+              <span class="landing__cats-anchor-thumb"><img src="assets/img/gong_combat_sniper-tr.webp" alt="" width="34" height="34" loading="lazy" decoding="async"></span>
+              <span class="landing__cats-anchor-thumb"><img src="assets/img/ipsc-tr.webp" alt="" width="34" height="34" loading="lazy" decoding="async"></span>
+              <span class="landing__cats-anchor-thumb"><img src="assets/img/popper_1-tr.webp" alt="" width="34" height="34" loading="lazy" decoding="async"></span>
+              <span class="landing__cats-anchor-thumb landing__cats-anchor-thumb--last"><img src="assets/img/texas_star-tr.webp" alt="" width="34" height="34" loading="lazy" decoding="async"></span>
             </span>
             <span class="landing__cats-anchor-chev" aria-hidden="true">
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3.5 6 8 10.5 12.5 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -470,7 +478,7 @@
         <ul class="landing__catalog-grid catalog_grid">
           <li class="shortcard landing__product" data-cat="gong" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/gong_combat_sniper.jpg" alt="Гонг №4Б" title="Гонг №4Б" loading="lazy">
+              <img width="480" height="578" src="assets/img/gong_combat_sniper.webp" alt="Гонг №4Б" title="Гонг №4Б" loading="lazy">
             </a>
             <div class="shortcard__suptitle">Hardox 500 · Ø 200 мм · 10 мм</div>
             <a href="#rfq" class="shortcard__title">Гонг №4Б</a>
@@ -482,7 +490,7 @@
           </li>
           <li class="shortcard landing__product" data-cat="gong" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/bullet_hard_1.jpg" alt="Гонг №6 круглий" title="Гонг №6 круглий" loading="lazy">
+              <img width="480" height="578" src="assets/img/bullet_hard_1.webp" alt="Гонг №6 круглий" title="Гонг №6 круглий" loading="lazy">
             </a>
             <div class="shortcard__suptitle">AR500 · Ø 300 мм · 10 мм</div>
             <a href="#rfq" class="shortcard__title">Гонг №6 круглий</a>
@@ -494,7 +502,7 @@
           </li>
           <li class="shortcard landing__product landing__product--extra" data-cat="gong" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/gong_combat_sniper.jpg" alt="Гонг ростовий №5" title="Гонг ростовий №5" loading="lazy">
+              <img width="480" height="578" src="assets/img/gong_combat_sniper.webp" alt="Гонг ростовий №5" title="Гонг ростовий №5" loading="lazy">
             </a>
             <div class="shortcard__suptitle">Hardox 500 · ростова фігура · 10 мм</div>
             <a href="#rfq" class="shortcard__title">Гонг ростовий №5</a>
@@ -506,7 +514,7 @@
           </li>
           <li class="shortcard landing__product" data-cat="ipsc" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/ipsc.jpg" alt="IPSC 290×500" title="IPSC 290×500" loading="lazy">
+              <img width="480" height="578" src="assets/img/ipsc.webp" alt="IPSC 290×500" title="IPSC 290×500" loading="lazy">
             </a>
             <div class="shortcard__suptitle">AR500 · класична · 8 мм</div>
             <a href="#rfq" class="shortcard__title">IPSC 290×500</a>
@@ -518,7 +526,7 @@
           </li>
           <li class="shortcard landing__product" data-cat="ipsc" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/ipsc.jpg" alt="IPSC Mini" title="IPSC Mini" loading="lazy">
+              <img width="480" height="578" src="assets/img/ipsc.webp" alt="IPSC Mini" title="IPSC Mini" loading="lazy">
             </a>
             <div class="shortcard__suptitle">Hardox 500 · ⅓ розміру · 8 мм</div>
             <a href="#rfq" class="shortcard__title">IPSC Mini</a>
@@ -530,7 +538,7 @@
           </li>
           <li class="shortcard landing__product landing__product--extra" data-cat="ipsc" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/ipsc.jpg" alt="IPSC ½ ростова" title="IPSC ½ ростова" loading="lazy">
+              <img width="480" height="578" src="assets/img/ipsc.webp" alt="IPSC ½ ростова" title="IPSC ½ ростова" loading="lazy">
             </a>
             <div class="shortcard__suptitle">AR500 · половинна · 8 мм</div>
             <a href="#rfq" class="shortcard__title">IPSC ½ ростова</a>
@@ -542,7 +550,7 @@
           </li>
           <li class="shortcard landing__product" data-cat="popper" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/popper_1.jpg" alt="Поппер класичний" title="Поппер класичний" loading="lazy">
+              <img width="480" height="578" src="assets/img/popper_1.webp" alt="Поппер класичний" title="Поппер класичний" loading="lazy">
             </a>
             <div class="shortcard__suptitle">рухома · сталь 10 мм · з активатором</div>
             <a href="#rfq" class="shortcard__title">Поппер класичний</a>
@@ -554,7 +562,7 @@
           </li>
           <li class="shortcard landing__product" data-cat="popper" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/popper_1.jpg" alt="Поппер міні" title="Поппер міні" loading="lazy">
+              <img width="480" height="578" src="assets/img/popper_1.webp" alt="Поппер міні" title="Поппер міні" loading="lazy">
             </a>
             <div class="shortcard__suptitle">рухома · компактний · сталь 8 мм</div>
             <a href="#rfq" class="shortcard__title">Поппер міні</a>
@@ -566,7 +574,7 @@
           </li>
           <li class="shortcard landing__product landing__product--extra" data-cat="popper" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/popper_1.jpg" alt="Поппер на стійці" title="Поппер на стійці" loading="lazy">
+              <img width="480" height="578" src="assets/img/popper_1.webp" alt="Поппер на стійці" title="Поппер на стійці" loading="lazy">
             </a>
             <div class="shortcard__suptitle">рухома · на стійці · сталь 10 мм</div>
             <a href="#rfq" class="shortcard__title">Поппер на стійці</a>
@@ -578,7 +586,7 @@
           </li>
           <li class="shortcard landing__product" data-cat="stand" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/tr-m.jpg" alt="Стенд KA-L" title="Стенд KA-L" loading="lazy">
+              <img width="480" height="578" src="assets/img/tr-m.webp" alt="Стенд KA-L" title="Стенд KA-L" loading="lazy">
             </a>
             <div class="shortcard__suptitle">Ст-3 · регульований · під гонги</div>
             <a href="#rfq" class="shortcard__title">Стенд KA-L</a>
@@ -590,7 +598,7 @@
           </li>
           <li class="shortcard landing__product" data-cat="stand" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/tr-m.jpg" alt="Тринога універсальна" title="Тринога універсальна" loading="lazy">
+              <img width="480" height="578" src="assets/img/tr-m.webp" alt="Тринога універсальна" title="Тринога універсальна" loading="lazy">
             </a>
             <div class="shortcard__suptitle">Ст-3 · складна · сталь / труба</div>
             <a href="#rfq" class="shortcard__title">Тринога універсальна</a>
@@ -602,7 +610,7 @@
           </li>
           <li class="shortcard landing__product landing__product--extra" data-cat="stand" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/tr-m.jpg" alt="Стенд мобільний" title="Стенд мобільний" loading="lazy">
+              <img width="480" height="578" src="assets/img/tr-m.webp" alt="Стенд мобільний" title="Стенд мобільний" loading="lazy">
             </a>
             <div class="shortcard__suptitle">Ст-3 · на колесах · під IPSC</div>
             <a href="#rfq" class="shortcard__title">Стенд мобільний</a>
@@ -614,7 +622,7 @@
           </li>
           <li class="shortcard landing__product" data-cat="catcher" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/bullet_hard_1.jpg" alt="Кулеуловлювач мобільний" title="Кулеуловлювач мобільний" loading="lazy">
+              <img width="480" height="578" src="assets/img/bullet_hard_1.webp" alt="Кулеуловлювач мобільний" title="Кулеуловлювач мобільний" loading="lazy">
             </a>
             <div class="shortcard__suptitle">AR500 · 10 мм · .223 / 7.62 / 9×19</div>
             <a href="#rfq" class="shortcard__title">Кулеуловлювач мобільний</a>
@@ -626,7 +634,7 @@
           </li>
           <li class="shortcard landing__product" data-cat="catcher" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/bullet_hard_1.jpg" alt="Кулеуловлювач HarD" title="Кулеуловлювач HarD" loading="lazy">
+              <img width="480" height="578" src="assets/img/bullet_hard_1.webp" alt="Кулеуловлювач HarD" title="Кулеуловлювач HarD" loading="lazy">
             </a>
             <div class="shortcard__suptitle">AR500 · 10 мм · стаціонарний посилений</div>
             <a href="#rfq" class="shortcard__title">Кулеуловлювач HarD</a>
@@ -638,7 +646,7 @@
           </li>
           <li class="shortcard landing__product landing__product--extra" data-cat="catcher" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/bullet_hard_1.jpg" alt="Кулеуловлювач компактний" title="Кулеуловлювач компактний" loading="lazy">
+              <img width="480" height="578" src="assets/img/bullet_hard_1.webp" alt="Кулеуловлювач компактний" title="Кулеуловлювач компактний" loading="lazy">
             </a>
             <div class="shortcard__suptitle">AR500 · 10 мм · під пістолетний калібр</div>
             <a href="#rfq" class="shortcard__title">Кулеуловлювач компактний</a>
@@ -650,7 +658,7 @@
           </li>
           <li class="shortcard landing__product" data-cat="special" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/texas_star_.jpg" alt="Texas Star" title="Texas Star" loading="lazy">
+              <img width="480" height="578" src="assets/img/texas_star_.webp" alt="Texas Star" title="Texas Star" loading="lazy">
             </a>
             <div class="shortcard__suptitle">рухома · 5 променів · AR500 10 мм</div>
             <a href="#rfq" class="shortcard__title">Texas Star</a>
@@ -662,7 +670,7 @@
           </li>
           <li class="shortcard landing__product" data-cat="special" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/popper_1.jpg" alt="Дуельне дерево" title="Дуельне дерево" loading="lazy">
+              <img width="480" height="578" src="assets/img/popper_1.webp" alt="Дуельне дерево" title="Дуельне дерево" loading="lazy">
             </a>
             <div class="shortcard__suptitle">рухома · 8×100 мм · AR500 10 мм</div>
             <a href="#rfq" class="shortcard__title">Дуельне дерево</a>
@@ -674,7 +682,7 @@
           </li>
           <li class="shortcard landing__product landing__product--extra" data-cat="special" data-reveal>
             <a href="#rfq" class="shortcard__thumb">
-              <img width="480" height="578" src="assets/img/popper_1.jpg" alt="Перевертайло (SpinStep)" title="Перевертайло (SpinStep)" loading="lazy">
+              <img width="480" height="578" src="assets/img/popper_1.webp" alt="Перевертайло (SpinStep)" title="Перевертайло (SpinStep)" loading="lazy">
             </a>
             <div class="shortcard__suptitle">рухома · реактивна · AR500 10 мм</div>
             <a href="#rfq" class="shortcard__title">Перевертайло (SpinStep)</a>
@@ -745,8 +753,8 @@
           </li>
         </ul>
         <button type="button" class="landing__gallery-video" data-video-open data-reveal aria-label="Відкрити відео з полігону зі звуком">
-          <video class="landing__gallery-video-media" aria-hidden="true" muted loop autoplay playsinline preload="metadata"
-                 src="https://amtarget.net/wp-content/uploads/2026/02/b9626d79-b501-44e7-8128-6bfd76f11747.mp4"></video>
+          <video class="landing__gallery-video-media" aria-hidden="true" muted loop playsinline preload="none"
+                 data-src="https://amtarget.net/wp-content/uploads/2026/02/b9626d79-b501-44e7-8128-6bfd76f11747.mp4"></video>
           <span class="landing__gallery-play" aria-hidden="true">
             <svg width="22" height="22" viewBox="0 0 22 22"><path d="M8 5l9 6-9 6z" fill="currentColor"/></svg>
           </span>
@@ -886,7 +894,7 @@
           </div>
         </dl>
         <figure class="landing__about-media landing__about-media--video" data-reveal>
-          <video class="landing__about-video" src="assets/video/amtarget.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <video class="landing__about-video" data-src="assets/video/amtarget.mp4" muted loop playsinline preload="none" aria-hidden="true"></video>
         </figure>
       </div>
     </section>
@@ -1029,7 +1037,7 @@
               <div class="landing__contacts-foot">
                 <div class="landing__manager">
                   <figure class="landing__manager-photo">
-                    <img src="assets/img/manager.png" alt="Менеджер по військових закупівлях A.M. Target" width="320" height="320" loading="lazy">
+                    <img src="assets/img/manager.webp" alt="Менеджер по військових закупівлях A.M. Target" width="320" height="320" loading="lazy">
                   </figure>
                   <span class="landing__manager-id">
                     <span class="landing__manager-status">
@@ -1108,7 +1116,7 @@
     <div class="container">
       <div class="footer__top">
         <div class="footer__top-left">
-          <a href="#" class="footer__logo"><img src="assets/img/logo-footer.svg" alt="A.M. Target" width="140" height="62"></a>
+          <a href="#" class="footer__logo"><img src="assets/img/logo-footer.svg" alt="A.M. Target" width="140" height="62" loading="lazy"></a>
           <div class="lang">
             <span class="lang__itm active">UA</span>
             <a href="#" class="lang__itm">RU</a>
@@ -1147,7 +1155,7 @@
             </ul>
           </div>
         </div>
-        <img src="assets/img/payments.svg" alt="" class="footer__payments">
+        <img src="assets/img/payments.svg" alt="" class="footer__payments" width="472" height="32" loading="lazy">
       </div>
       <div class="footer__bot">
         <div class="footer__links">
