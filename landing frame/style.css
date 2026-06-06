@@ -335,7 +335,7 @@ html { scroll-behavior: smooth; }
 /* прозорі плашки розмивають фон-сітку під собою (читабельність) */
 .landing__logos-itm,
 .landing__rfq-perk,
-.landing__tabs {
+.landing__tab {
   -webkit-backdrop-filter: blur(8px);
           backdrop-filter: blur(8px);
 }
@@ -548,7 +548,7 @@ html { scroll-behavior: smooth; }
     width: fit-content;          /* ширина = по найширшому (кнопки) */
     max-width: 100%;
     /* тепер ліворуч → лівим краєм по краю колонки (без margin-left:auto) */
-    gap: clamp(24px, 2.5vw, 36px); /* повітря між підзаголовком і кнопками */
+    gap: 50px;                   /* повітря між підзаголовком і кнопками */
   }
 }
 
@@ -662,7 +662,7 @@ html { scroll-behavior: smooth; }
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: clamp(15px, 1.5vw, 20px) 2px;
+  padding: clamp(15px, 1.5vw, 15px) 2px;
   border-bottom: 1px solid var(--border-soft);
 }
 .landing__hero-spec-num {
@@ -730,6 +730,9 @@ html { scroll-behavior: smooth; }
   flex: 0 0 auto;
   color: var(--accent);
 }
+/* текст — один flex-елемент (не дозволяємо рядкам тексту ставати окремими
+   flex-items і ламатись у «колонки» на вузьких екранах) */
+.landing__hero-note-txt { min-width: 0; }
 /* банер: нотатка — heading-шрифт, UPPERCASE, дрібна; білий текст, годинник жовтий, лише «30 хв» зелене (як у макеті) */
 .landing__hero--banner .landing__hero-note {
   font-family: var(--font-heading);
@@ -1448,34 +1451,69 @@ html { scroll-behavior: smooth; }
   gap: 16px;
   margin-bottom: 30px;
 }
+/* таби каталогу — АДАПТИВНО:
+   • телефон/вузькі екрани (база) — кожна категорія окремий «бабл», контейнер
+     БЕЗ рамки; бабли вільно переносяться рядами (раніше суцільна плашка тут
+     «ламалася» некрасивим переносом рядка всередині).
+   • десктоп/планшет (≥768px, де всі 6 влазять у ряд) — попереднє оформлення:
+     одна суцільна сегментована плашка-рамка (override нижче). */
 .landing__tabs {
-  display: inline-flex;
+  display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  padding: 6px;
-  background: var(--surface-1);
-  box-shadow: inset 0 0 0 1px var(--border-soft);
-  border-radius: 99px;
+  justify-content: center;
+  gap: 8px;
 }
 .landing__tab {
   padding: 10px 20px;
   border: 0;
   border-radius: 99px;
-  background: transparent;
+  background: var(--surface-1);
+  box-shadow: inset 0 0 0 1px var(--border-soft);
   font-weight: 500;
   font-size: 14px;
   line-height: 1;
   letter-spacing: 0.02em;
   color: var(--text-2);
   cursor: pointer;
-  transition: background-color 0.35s ease, color 0.35s ease;
+  transition: background-color 0.35s ease, color 0.35s ease, box-shadow 0.35s ease;
 }
-.landing__tab:hover { color: var(--white); }
-.landing__tab.active { background: var(--accent); color: var(--black); }
-/* на вузьких екранах усі 4 категорії в один рядок (без переносу «Стенди» окремо) */
+.landing__tab:hover {
+  color: var(--white);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+}
+.landing__tab.active {
+  background: var(--accent);
+  color: var(--black);
+  box-shadow: none;
+}
 @media (max-width: 480px) {
-  .landing__tabs { gap: 3px; padding: 5px; }
-  .landing__tab { padding: 9px 13px; font-size: 13px; letter-spacing: 0; }
+  .landing__tabs { gap: 6px; }
+  .landing__tab { padding: 9px 14px; font-size: 13px; letter-spacing: 0; }
+}
+/* ≥768px — повертаємо стару суцільну рамку-сегмент (бабли лише на телефоні) */
+@media (min-width: 768px) {
+  .landing__tabs {
+    display: inline-flex;
+    gap: 6px;
+    padding: 6px;
+    background: var(--surface-1);
+    box-shadow: inset 0 0 0 1px var(--border-soft);
+    border-radius: 99px;
+    -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+  }
+  .landing__tab {
+    background: transparent;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+            backdrop-filter: none;
+  }
+  .landing__tab:hover {
+    color: var(--white);
+    background: transparent;
+    box-shadow: none;
+  }
 }
 
 /* сітка каталогу: на всю ширину контейнера (як .landing__cats-grid та сусідні блоки),
@@ -2614,16 +2652,16 @@ html { scroll-behavior: smooth; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  min-height: 60px;
+  gap: 8px;
+  min-height: 40px;
   max-width: 100%;
-  padding: 0 20px;
+  padding: 0 14px;
   border: 1px solid var(--border-hover);
   border-radius: var(--r-btn);
   background: var(--surface-2);
   font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 0.1em;
+  font-size: 11px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-2);
   cursor: pointer;
@@ -2639,6 +2677,8 @@ html { scroll-behavior: smooth; }
 .landing__rfq-attach.is-filled { color: var(--white); border-color: var(--accent-line); background: var(--accent-tint); text-transform: none; letter-spacing: 0.01em; }
 
 .landing__rfq-disclaimer { margin: 0; font-size: 12px; line-height: 1.4; color: var(--text-3); }
+.landing__rfq-disclaimer-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+.landing__rfq-disclaimer-link:hover { color: var(--accent-2); }
 
 /* ==========================================================================
    11 · CONTACTS — двозонна панель: яскравий зелений CTA + темні реквізити
