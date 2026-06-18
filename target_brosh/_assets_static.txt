@@ -1,0 +1,341 @@
+@@@
+CONTROLS
+<div class="controls">
+  <h5>Прототип · керування</h5>
+  <div class="seg" id="priceSeg">
+    <button class="on" data-mode="show">Показати ціни</button>
+    <button data-mode="req">Ціна за запитом</button>
+  </div>
+  <p class="hint">Перемикач змінює подачу цін у частині рядків (товари дорожче 5000 грн). Решта — завжди з ціною.</p>
+  <button class="print" onclick="window.print()">🖨 Друкувати / зберегти у PDF</button>
+</div>
+
+@@@
+COVER
+<section class="page cover">
+  <div class="cover-stage">
+    <div class="cover-photo"><span>Герой-фото: боєць на полігоні, ч/б, кінематографічно<br>мішені AMTarget на фоні</span></div>
+    <div class="cover-overlay"></div>
+    <div class="cover-accent"></div>
+    <div class="cover-content">
+      <div class="cover-top">
+        <div class="logo"><span class="mark"></span>AMTarget<small>A.M.TARGET</small></div>
+        <div class="cover-badge">ЗСУ · Prozorro<br>з 2019 року</div>
+      </div>
+      <div class="cover-bottom-action">
+        <span class="cover-tagline">Перевірені на передовій</span>
+        <h1 class="cover-title">Сталеві<br><b>мішені</b></h1>
+        <p class="cover-lede">Виробник повного циклу. Лазерне різання ±0.1 мм. Сталь AR500 / AR550. Зроблено в Україні.</p>
+        <div class="cover-strip">
+          <div><b>10 000+</b><span>мішеней виготовлено</span></div>
+          <div><b>63</b><span>військові частини</span></div>
+          <div><b>±0.1 мм</b><span>точність різання</span></div>
+          <div><b>2026</b><span>каталог</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+@@@
+ABOUT
+<section class="page">
+  <span class="tab">Про компанію</span>
+  <div class="pad">
+    <div class="kicker">Хто ми</div>
+    <h2 class="sec-title">Виробник повного циклу<br>сталевих мішеней</h2>
+    <div class="grid-12" style="margin-top:18px;">
+      <div>
+        <p class="lead">AMTarget — українська родина майстрів, що виготовляє сталеві мішені для стрільби. Ми працюємо повним циклом: від листа сталі до готового виробу, який витримує десятки тисяч пострілів.</p>
+        <p>Кожна мішень проходить через наші руки — від розкрою лазером з точністю ±0.1 мм до контролю якості перед відправкою.</p>
+        <p>Сьогодні наші мішені працюють на полігонах спортсменів і на навчальних базах підрозділів Збройних Сил України.</p>
+      </div>
+      <div class="ph" style="min-height:230px;"><span class="ph-cap">Фото: лазерне різання сталі / виробничий цех</span></div>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><b>10 000+</b><span>мішеней виготовлено</span></div>
+      <div class="stat"><b>±0.1 мм</b><span>точність різання</span></div>
+      <div class="stat"><b>2 марки</b><span>сталі AR500 / AR550</span></div>
+      <div class="stat"><b>Україна</b><span>Требухів, Київщина</span></div>
+    </div>
+    <div class="kicker" style="margin-top:18px;">Повний цикл виробництва</div>
+    <div class="cycle">
+      <div class="step"><div class="ic">▭</div><b>Сталь</b><span>AR500 / AR550</span></div>
+      <div class="step"><div class="ic">✦</div><b>Лазер</b><span>різ ±0.1 мм</span></div>
+      <div class="step"><div class="ic">⛯</div><b>Зварювання</b><span>вузли, стійки</span></div>
+      <div class="step"><div class="ic">▦</div><b>Фарбування</b><span>порошкове</span></div>
+      <div class="step"><div class="ic">✓</div><b>Контроль</b><span>якість</span></div>
+      <div class="step"><div class="ic">⊳</div><b>Доставка</b><span>по Україні</span></div>
+    </div>
+    <div class="note">Сімейне виробництво — це відповідальність: ми знаємо кожну партію сталі, що йде у виріб.</div>
+  </div>
+  <div class="foot-brand">AMTarget · amtarget.net</div>
+  <div class="pageno">02</div>
+</section>
+
+@@@
+MATERIALS
+<section class="page">
+  <span class="tab">Матеріали</span>
+  <div class="pad">
+    <div class="kicker">Чому сталь</div>
+    <h2 class="sec-title">Три марки сталі<br>під різні завдання</h2>
+    <p class="sec-sub">Сталеві мішені дають миттєвий зворотний зв'язок дзвоном і витримують десятки тисяч пострілів. AMTarget пропонує три варіанти сталі — оберіть під свою зброю.</p>
+    <div class="kicker">Чому сталь, а не папір</div>
+    <div class="benefits">
+      <div><div class="bic">&#9834;</div><b>Миттєвий дзвін</b><span>Чути влучання без підходу до мішені</span></div>
+      <div><div class="bic">&#8734;</div><b>Десятки тисяч пострілів</b><span>Багаторазова — не міняти, як папір</span></div>
+      <div><div class="bic">&#8372;</div><b>Економно в довгу</b><span>Один раз купив — роками користуєшся</span></div>
+      <div><div class="bic">&#9678;</div><b>Точність і темп</b><span>Одразу чути результат — швидший прогрес</span></div>
+    </div>
+    <table class="tbl">
+      <tr><th>Параметр</th><th>AR 500 · 5 мм</th><th>AR 500 · 10 мм</th><th>AR 550 · 10 мм</th></tr>
+      <tr><td>Твердість, HBW</td><td>470–510</td><td>470–510</td><td class="hl">530–560</td></tr>
+      <tr><td>Товщина</td><td>5 мм</td><td>10 мм</td><td>10 мм</td></tr>
+      <tr><td>Тип зброї</td><td>Пістолет, РСС, карабін, гладкоствол</td><td>Гвинтівка до .308Win, 7.62×54R</td><td>Гвинтівка + підвищені навантаження</td></tr>
+      <tr><td>Ресурс</td><td>Десятки тисяч пострілів</td><td>Десятки тисяч пострілів</td><td class="hl">Максимальний ресурс</td></tr>
+      <tr><td>Рекомендовано</td><td>Пістолетний тренінг</td><td>Гвинтівковий тренінг</td><td>Преміум, тривале використання</td></tr>
+    </table>
+    <div class="note">HBW (твердість за Брінеллем) — показник стійкості сталі до деформації. Що вище число, то довше мішень тримає рівну поверхню під вогнем.</div>
+    <div class="kicker" style="margin-top:18px;">Для чого краще підходить кожна сталь</div>
+    <div class="steel-notes">
+      <div>
+        <div class="ph sn-img"><span class="ph-cap">Пластина AR500 · 5 мм</span></div>
+        <span class="flag steel">AR500 · 5 мм</span>
+        <p><b>Універсальна базова.</b> Найкраща для пістолета, револьвера, РСС, карабіну та гладкоствола на коротких і середніх дистанціях. Оптимальне співвідношення ціна/ресурс — розумний вибір для клубів і щоденних тренувань.</p>
+      </div>
+      <div>
+        <div class="ph sn-img"><span class="ph-cap">Пластина AR500 · 10 мм</span></div>
+        <span class="flag steel">AR500 · 10 мм</span>
+        <p><b>Під гвинтівку.</b> Подвійна товщина впевнено тримає енергію нарізних калібрів до .308Win та 7.62×54R від 100 м — там, де 5 мм уже недостатньо. Робочий вибір для гвинтівкового тренінгу.</p>
+      </div>
+      <div class="ar550">
+        <div class="ph sn-img"><span class="ph-cap">Пластина AR550 · 10 мм</span></div>
+        <span class="flag ar550">AR550 · 10 мм</span>
+        <p><b>Преміум під навантаження.</b> Підвищена твердість 530–560 HBW для інтенсивної стрільби, великих калібрів і максимального ресурсу. Довше за інші марки зберігає рівну поверхню під вогнем.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot-brand">AMTarget · Матеріали</div>
+  <div class="pageno">03</div>
+</section>
+
+@@@
+MATERIALS2
+<section class="page">
+  <span class="tab">Матеріали</span>
+  <div class="pad">
+    <div class="kicker">Чому сталь · варіант зі зразками</div>
+    <h2 class="sec-title">Три марки сталі<br>під різні завдання</h2>
+    <p class="sec-sub">Той самий розбір, але зі зразками сталі прямо в таблиці — для наочного порівняння поверхні й товщини кожної марки.</p>
+    <div class="kicker">Чому сталь, а не папір</div>
+    <div class="benefits">
+      <div><div class="bic">&#9834;</div><b>Миттєвий дзвін</b><span>Чути влучання без підходу до мішені</span></div>
+      <div><div class="bic">&#8734;</div><b>Десятки тисяч пострілів</b><span>Багаторазова — не міняти, як папір</span></div>
+      <div><div class="bic">&#8372;</div><b>Економно в довгу</b><span>Один раз купив — роками користуєшся</span></div>
+      <div><div class="bic">&#9678;</div><b>Точність і темп</b><span>Одразу чути результат — швидший прогрес</span></div>
+    </div>
+    <table class="tbl">
+      <tr><th>Параметр</th><th>AR 500 · 5 мм</th><th>AR 500 · 10 мм</th><th>AR 550 · 10 мм</th></tr>
+      <tr class="trow-img">
+        <td><b>Зразок</b></td>
+        <td><div class="ph timg"><span class="ph-cap">AR500 · 5 мм</span></div></td>
+        <td><div class="ph timg"><span class="ph-cap">AR500 · 10 мм</span></div></td>
+        <td><div class="ph timg"><span class="ph-cap">AR550 · 10 мм</span></div></td>
+      </tr>
+      <tr class="trow-desc">
+        <td><b>Для чого краще</b></td>
+        <td><b>Універсальна базова.</b> Пістолет, РСС, карабін, гладкоствол; коротко-середні дистанції; оптимум ціна/ресурс.</td>
+        <td><b>Під гвинтівку.</b> .308Win та 7.62×54R від 100 м — там, де 5 мм уже недостатньо.</td>
+        <td><b>Преміум під навантаження.</b> Інтенсив, великі калібри, максимальний ресурс; 530–560 HBW.</td>
+      </tr>
+      <tr><td>Твердість, HBW</td><td>470–510</td><td>470–510</td><td class="hl">530–560</td></tr>
+      <tr><td>Товщина</td><td>5 мм</td><td>10 мм</td><td>10 мм</td></tr>
+      <tr><td>Тип зброї</td><td>Пістолет, РСС, карабін, гладкоствол</td><td>Гвинтівка до .308Win, 7.62×54R</td><td>Гвинтівка + підвищені навантаження</td></tr>
+      <tr><td>Ресурс</td><td>Десятки тисяч пострілів</td><td>Десятки тисяч пострілів</td><td class="hl">Максимальний ресурс</td></tr>
+      <tr><td>Рекомендовано</td><td>Пістолетний тренінг</td><td>Гвинтівковий тренінг</td><td>Преміум, тривале використання</td></tr>
+    </table>
+    <div class="note">HBW (твердість за Брінеллем) — показник стійкості сталі до деформації. Що вище число, то довше мішень тримає рівну поверхню під вогнем.</div>
+  </div>
+  <div class="foot-brand">AMTarget · Матеріали</div>
+  <div class="pageno">04</div>
+</section>
+
+@@@
+CALIBER
+<section class="page">
+  <span class="tab">Сумісність</span>
+  <div class="pad">
+    <div class="kicker">Калібр · дистанція · сталь</div>
+    <h2 class="sec-title">Таблиця сумісності</h2>
+    <p class="sec-sub">Знайдіть свою зброю — і дізнайтесь мінімальну безпечну дистанцію та рекомендовану сталь.</p>
+    <table class="tbl">
+      <tr><th>Зброя</th><th>Калібр</th><th>Мін. дистанція</th><th>Рекомендована сталь</th></tr>
+      <tr><td>Пістолет</td><td>9×19, .357Mag, .40S&W, .45ACP</td><td>10 м</td><td>AR500 5 мм</td></tr>
+      <tr><td>Револьвер</td><td>.357Mag</td><td>15 м</td><td>AR500 5 мм</td></tr>
+      <tr><td>РСС</td><td>9×19</td><td>15 м</td><td>AR500 5 мм</td></tr>
+      <tr><td>Гладкоствольна</td><td>12 / 16 кал (дріб, куля)</td><td>10 м</td><td>AR500 5 мм</td></tr>
+      <tr><td>Карабін</td><td>5.56×45, .223Rem, 7.62×39</td><td>50 м</td><td>AR500 10 мм</td></tr>
+      <tr><td>Гвинтівка</td><td>.308Win, 7.62×54R</td><td>100 м</td><td class="hl">AR500 / AR550 10 мм</td></tr>
+      <tr><td>Снайперська</td><td>.338, .50BMG</td><td>за запитом</td><td class="hl">AR550 10 мм</td></tr>
+    </table>
+    <div class="note"><b>Заборонено:</b> бронебійні, твердосплавні та м'якосерцеві кулі — вони руйнують поверхню мішені та небезпечні рикошетом. Дистанції орієнтовні; перевіряйте перед використанням.</div>
+    <div class="grid-2" style="margin-top:18px;">
+      <div class="ph" style="min-height:150px;"><span class="ph-cap">Схема: кут встановлення мішені 10–15° (відбиття куль униз)</span></div>
+      <div>
+        <div class="kicker">Як читати таблицю</div>
+        <ul class="bullets">
+          <li>Менший калібр → можна ближче й тонша сталь</li>
+          <li>Гвинтівка → тільки 10 мм і дистанція від 100 м</li>
+          <li>Сумніваєтесь — беріть AR550, запас завжди корисний</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot-brand">AMTarget · Сумісність</div>
+  <div class="pageno">04</div>
+</section>
+
+@@@
+MILITARY
+<section class="page mil">
+  <span class="tab" style="background:#0e1116;">Для військових</span>
+  <div class="pad">
+    <div class="kicker">Для сил оборони · з 2019 року</div>
+    <h2 class="sec-title">Працюємо з військовими</h2>
+    <p class="sec-sub">Сталеві мішені для бойової підготовки ЗСУ — перевірені в умовах інтенсивної стрілецької підготовки підрозділів сил оборони.</p>
+
+    <div class="mil-stats">
+      <div><b>63</b><span>військові частини</span></div>
+      <div><b>10 000+</b><span>мішеней виготовлено</span></div>
+      <div><b>з 2019</b><span>для сил оборони</span></div>
+      <div><b>30 хв</b><span>відповідь у робочий час</span></div>
+    </div>
+
+    <div class="kicker" style="margin-top:14px;">Нам довіряють підрозділи</div>
+    <div class="mil-units">
+      <div class="u">120-та ОБр ТрО</div>
+      <div class="u">427-ма ОБр БпС «Рарог»</div>
+      <div class="u">67-ма ОМБр</div>
+      <div class="u">711-та бригада розмінування</div>
+      <div class="u">в/ч 3059 НГУ</div>
+      <div class="u">в/ч А2772</div>
+      <div class="u">в/ч А3204</div>
+      <div class="u">в/ч А3719</div>
+      <div class="u">в/ч Т0120</div>
+    </div>
+
+    <div class="mil-cols">
+      <div>
+        <div class="kicker" style="margin-top:16px;">Що постачаємо військовим</div>
+        <ul class="mil-list">
+          <li><b>Combat / Combat 90%</b> — тактичні установки<span class="mil-flag">10 мм: 5.45 · 7.62×54R</span></li>
+          <li>Силует людини + заручник (повний і поясний)</li>
+          <li><b>CombaT Sniper</b> — для снайперської підготовки</li>
+          <li>Гонги на спіральній рукоятці — польова підвіска без стійок</li>
+          <li>Мішеневі установки, поппери, гонги — під будь-які розміри</li>
+        </ul>
+      </div>
+      <div>
+        <div class="kicker" style="margin-top:16px;">Як ми працюємо з В/Ч</div>
+        <ul class="mil-list">
+          <li>Участь у держзакупівлях через <b>Prozorro</b></li>
+          <li>Документи під формат закупівлі військової частини</li>
+          <li>Безготівкова оплата за рахунком</li>
+          <li>Знижки для військових частин</li>
+          <li>Виготовлення під запит — будь-які розміри</li>
+          <li>Доставка по всій Україні</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="kicker" style="margin-top:16px;">Відгуки</div>
+    <div class="mil-cols">
+      <div class="mil-quote">«Сталь тримає, геометрія рівна. Документи зробили швидко.»<b>— офіцер в/ч</b></div>
+      <div class="mil-quote">«Якість на рівні, відмінно тримають інтенсивну стрільбу.»<b>— підполковник</b></div>
+    </div>
+
+    <div class="mil-cta">
+      <div>
+        <div class="big">Запит комплекту на підрозділ</div>
+        <div style="font-size:12px;color:#9aa3b0;">Порахуємо набір під ваші завдання й калібри, підготуємо документи</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="big">+38 (073) 50 50 855</div>
+        <div style="font-size:11px;color:#9aa3b0;">Telegram · WhatsApp · Пн–Сб 9:00–18:00</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot-brand" style="color:#8c95a3;">AMTarget · Для військових</div>
+  <div class="pageno" style="color:#8c95a3;">05</div>
+</section>
+
+@@@
+SAFETY
+<section class="page">
+  <span class="tab">Безпека</span>
+  <div class="pad">
+    <div class="kicker">Безпечне використання</div>
+    <h2 class="sec-title">6 правил безпеки</h2>
+    <p class="sec-sub">Сталева мішень служить роками — якщо дотримуватись простих правил. Це захищає і стрільця, і виріб.</p>
+    <ol class="safety">
+      <li>Дотримуйтесь мінімальних дистанцій з таблиці сумісності (стор. 04).</li>
+      <li>Встановлюйте мішень під кутом 10–15° від вертикалі — щоб фрагменти куль ішли вниз.</li>
+      <li>Не використовуйте бронебійні, твердосплавні та м'якосерцеві кулі.</li>
+      <li>Замінюйте мішень при деформації зони ураження понад 2 мм.</li>
+      <li>Завжди носіть засоби захисту: окуляри та навушники.</li>
+      <li>Перевіряйте стан мішені та кріплень після кожного тренування.</li>
+    </ol>
+    <div class="grid-2" style="margin-top:18px;">
+      <div class="ph" style="min-height:140px;"><span class="ph-cap">Схема: правильний кут і напрямок відбиття</span></div>
+      <div class="note" style="margin:0;"><b>Важливо:</b> неправильне використання (близька дистанція, заборонені кулі, негативний кут) пошкоджує мішень і створює ризик травми рикошетом. Гарантія не поширюється на ушкодження від порушення правил.</div>
+    </div>
+  </div>
+  <div class="foot-brand">AMTarget · Безпека</div>
+  <div class="pageno">13</div>
+</section>
+
+@@@
+CONTACTS
+<section class="page back">
+  <div class="pad">
+    <div>
+      <div class="logo" style="color:#fff;"><span class="mark"></span>AMTarget<small>A.M.TARGET</small></div>
+      <h2 class="sec-title" style="color:#fff;margin-top:24px;">Замовляйте<br>напряму у виробника</h2>
+      <div class="c-grid">
+        <div>
+          <div class="c-item"><span>Сайт</span><b>amtarget.net</b></div>
+          <div class="c-item"><span>Телефон</span><b>+38 (073) 50 50 855</b></div>
+          <div class="c-item"><span>Email</span><b>info@amtarget.net <span style="font-size:11px;color:#8c95a3;">[уточнити]</span></b></div>
+          <div class="c-item"><span>Telegram / Viber</span><b>@amtarget <span style="font-size:11px;color:#8c95a3;">[уточнити]</span></b></div>
+          <div class="c-item"><span>Адреса</span><b>смт Требухів, Київська обл., Україна</b></div>
+        </div>
+        <div style="text-align:center;">
+          <div class="qr" style="margin:0 auto;">QR на сайт<br>/ форму<br>замовлення</div>
+          <p style="font-size:11px;color:#9aa0a8;margin-top:10px;">Наведіть камеру —<br>відкриється каталог онлайн</p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="proof">
+        <div><b>10 000+</b><span>мішеней</span></div>
+        <div><b>ЗСУ</b><span>підрозділи</span></div>
+        <div><b>±0.1мм</b><span>лазер</span></div>
+        <div><b>повний</b><span>цикл</span></div>
+      </div>
+      <p style="font-size:10px;color:#6b7280;letter-spacing:.12em;margin-top:18px;text-transform:uppercase;">© 2026 AMTarget · Сталеві мішені · Зроблено в Україні</p>
+    </div>
+  </div>
+</section>
+
+@@@
+SCRIPT
+<script>
+  var seg = document.getElementById('priceSeg');
+  seg.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    seg.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on');
+    document.body.classList.toggle('req', b.dataset.mode === 'req');
+  });
+</script>

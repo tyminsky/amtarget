@@ -1,0 +1,141 @@
+=== Gong - UA · колонка labels=27 ===
+  g150 -> top
+  g150 -> top 
+  g150 -> top
+  g200 -> top
+  g200 -> top
+  g200 -> top 
+  g300 -> new
+  g300 -> new
+  g350 -> new
+  g250-one -> new
+  g250-one -> new
+  g300-one -> new
+  g300-one -> new
+  g300-one -> new
+  g200-300 -> new
+  g200-300 -> new
+  g200-300 -> new
+  g350-450 -> new
+  g350-450 -> new
+  g350-450 -> new
+  Pl-100 -> competition
+  Pl-100 -> competition
+  Pl-100 -> competition
+  Pl-150 -> competition
+  Pl-150 -> competition
+  Pl-150 -> competition
+  Pl-200 -> competition, sale
+  Pl-200 -> competition, sale
+  Pl-200 -> competition, sale
+  Plc-100 -> competition
+  Plc-100 -> competition
+  Plc-100 -> competition
+  Plc-150 -> competition
+  Plc-150 -> competition
+  Plc-150 -> competition
+  Plc-200 -> competition
+  Plc-200 -> competition
+  Plc-200 -> competition
+  G-IPSCm -> top
+  G-IPSCm -> top
+  G-IPSCm -> top 
+  G-IDPAm -> sale,top 
+  G-IDPAm -> sale
+  Gong_Octa_150 -> new
+  Gong_Octa_150 -> new
+  Gong_Octa_150 -> new
+  Gong_Octa_200 -> new
+  Gong_Octa_200 -> new
+  Gong_Octa_200 -> new
+  G-Spiral_100 -> new
+  G-Spiral_100 -> new
+  G-Spiral_100 -> new
+  G-Spiral_150 -> new
+  G-Spiral_150 -> new
+  G-Spiral_150 -> new
+  G-Spiral_200 -> new
+  G-Spiral_200 -> new
+  G-Spiral_200 -> new
+  G-Spiral_250 -> new
+  G-Spiral_250 -> new
+  G-Spiral_300 -> new
+  G-Spiral_300 -> new
+  G-Spiral_Nabor -> new
+  G-Spiral_Nabor -> new
+  AM-ImpacT_IDPA -> new,sale
+  AM-ImpacT_Popper -> new,sale
+  AM-ImpacT_Terror -> new,sale
+  AM-ImpacT_Terror_M -> new,sale
+  AM-ImpacT_220x450 -> new,sale
+  AM-ImpacT_IDPA -> new,sale
+  AM-ImpacT_Popper -> new,sale
+  AM-ImpacT_Terror -> new,sale
+  AM-ImpacT_Terror_M -> new,sale
+  AM-ImpacT_220x450 -> new,sale
+  AM-ImpacT_IDPA -> new,sale
+  AM-ImpacT_Popper -> new,sale
+  AM-ImpacT_Terror -> new,sale
+  AM-ImpacT_Terror_M -> new,sale
+  AM-ImpacT_220x450 -> new,sale
+  Gong_siluet_500x300 -> competition
+  Gong_siluet_500x300 -> competition
+  g150-s20 -> new,sale
+  (непорожніх labels: 82)
+
+=== Mishen - UA · колонка labels=27 ===
+  Popper -> top
+  Popper-Mini -> top
+  None -> top
+  Combat -> new, military
+  Combat -> military
+  Combat_90 -> sale, military
+  Combat_90 -> sale, military
+  Black_star -> sale
+  Black_star -> sale
+  Bullet_hard -> top, sale
+  Bullet_mobi -> new
+  Bullet_mobi -> new
+  IDPA_mini -> new
+  IDPA_mini -> new
+  IDPA_mini -> new
+  Hum_sil -> new
+  Hum_sil -> new
+  Hum_sil -> new
+  Hum_full_sil -> new
+  Hum_full_sil -> new
+  Hum_full_sil -> new
+  TR-S -> new
+  TR-M -> new
+  Silhouette Stand_S -> new
+  Silhouette Stand_X -> new
+  SpinStep -> new
+  CombaT_Sniper -> military
+  Texas_StaR -> new
+  Texas_StaR -> new
+  Butterfly -> new
+  Butterfly -> new
+  ST_ARMA -> new
+  KR_ARMA -> new
+  Scorpio mini -> new,top
+  Scorpio -> new,top
+  Scorpio Max -> new,top
+  Gravity_Mini_Popper -> new
+  None -> new
+  None -> new
+  None -> new
+  None -> new
+  None -> new
+  Bianchi_6x200 -> new
+  Bianchi_6x200-75 -> new
+  DD_8x100 -> new
+  DD_8x100 -> new
+  DD_8x150 -> new
+  DD_8x150 -> new
+  DD_6x150 -> new
+  DD_6x150 -> new
+  DD_6x200 -> new
+  DD_6x200 -> new
+  JumpingJack -> new
+  (непорожніх labels: 53)
+

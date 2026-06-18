@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Start-Process \"D:\\\\Work\\\\Tempus\\\\am target\\\\target_brosh\\\\amtarget_catalog_prototype.html\")",
+      "Bash(python -m pip install openpyxl --quiet)",
+      "Bash(python -c \"import openpyxl; print\\('openpyxl ready'\\)\")",
+      "Bash(python _build_catalog.py)",
+      "Bash(python -c ' *)",
+      "WebFetch(domain:dev.amtarget.net)",
+      "WebFetch(domain:amtarget.net)"
+    ]
+  }
+}

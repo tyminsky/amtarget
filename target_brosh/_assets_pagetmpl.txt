@@ -1,0 +1,11 @@
+<section class="page {tabcls}">
+  <span class="tab {tabcls}">{tab}</span>
+  <div class="pad">
+    <div class="kicker">{kicker}</div>
+    <h2 class="sec-title">{title}</h2>
+    <p class="sec-sub">{sub}</p>
+    {body}
+  </div>
+  <div class="foot-brand">AMTarget · amtarget.net</div>
+  <div class="pageno">{n}</div>
+</section>
