@@ -721,6 +721,7 @@ body.req .prow[data-toggle] .price-req{display:inline;}
   @page{size:A4;margin:0;}
 }
 </style></head><body>
+<!-- ВІДЖЕТ ПРОТОТИП КЕРУВАННЯ ЗАКОМЕНТОВАНО
 <div class="controls collapsed" id="controls">
   <button class="ctl-toggle" id="ctlToggle" type="button" aria-expanded="false" title="Згорнути / розгорнути">
     <h5>Прототип · керування</h5>
@@ -739,7 +740,9 @@ body.req .prow[data-toggle] .price-req{display:inline;}
   <p class="hint">Перемикає фото на обкладинці між двома варіантами.</p>
   <button class="print" onclick="window.print()">🖨 Друкувати / зберегти у PDF</button>
   </div>
-</div><section class="page cover">
+</div>
+-->
+<section class="page cover">
   <div class="cover-stage">
     <img class="cover-photo" id="coverPhoto" src="assets/img/herov2.png" alt="Виробництво AMTarget — повний цикл сталевих мішеней">
     <div class="cover-scrim"></div>
@@ -1130,6 +1133,7 @@ body.req .prow[data-toggle] .price-req{display:inline;}
     <span>Сталеві мішені · Зроблено в Україні</span>
   </footer>
 </section><script>
+/* ВІДЖЕТ ПРОТОТИП КЕРУВАННЯ ЗАКОМЕНТОВАНО
   var seg = document.getElementById('priceSeg');
   seg.addEventListener('click', function(e){
     var b = e.target.closest('button'); if(!b) return;
@@ -1153,6 +1157,7 @@ body.req .prow[data-toggle] .price-req{display:inline;}
     var collapsed = ctl.classList.toggle('collapsed');
     ctlToggle.setAttribute('aria-expanded', String(!collapsed));
   });
+*/
 </script>
 <!-- система версій: ліва панель швидкого перемикання знімків -->
 <script src="versions/versions.js"></script>
